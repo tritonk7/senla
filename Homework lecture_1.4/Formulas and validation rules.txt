@@ -1,0 +1,22 @@
+Object Flight__c
+
+Validation Rules "Age"
+
+New_Tourist__r.Tourist_Age__c <  Trip__r.Mininmum_Age__c
+
+Error Message: Your age is not right!
+
+
+Validation Rules "Flight_Status"
+
+TEXT(Status__c)  ==  "Past"
+
+
+Error Message: Choose a different flight status.
+
+
+Object Tourists__c
+
+Field Tourist Age
+
+Formula (TODAY() -  Birthday__c) / 365
