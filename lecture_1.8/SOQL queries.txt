@@ -1,0 +1,22 @@
+1. SELECT Name , trip__r.Name, trip__r.Start_Data__c FROM Flight__c Where trip__r.Start_Data__c < 2021-01-01 and trip__r.Start_Data__c >= 2020-01-01
+
+2.Select Name From Tourists__c Where Name= 'John'
+
+3.Select Name, Tourist_Age__c From Tourists__c WHERE Tourist_Age__c In (24, 34)
+
+4.SELECT Name , trip__r.Name, trip__r.Start_Data__c , New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c FROM Flight__c
+
+5.SELECT Name, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c
+
+6.SELECT Name, Trip__c, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c
+where Trip__c = null
+
+7.SELECT Name, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c Where  trip__r.Start_Data__c < 2021-01-01 and trip__r.Start_Data__c >= 2020-01-01
+
+8.SELECT Name, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c Where 
+trip__r.Start_Data__c < 2021-01-01 
+and trip__r.Start_Data__c >= 2020-01-01  
+and New_Tourist__r.Tourist_Age__c >= 20 
+and  New_Tourist__r.Tourist_Age__c <= 30
+and  New_Tourist__r.Name > 'I'
+and New_Tourist__r.Name < 'K'
