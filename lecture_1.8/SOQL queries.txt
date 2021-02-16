@@ -6,7 +6,11 @@
 
 4.SELECT Name , trip__r.Name, trip__r.Start_Data__c , New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c FROM Flight__c
 
+SELECT Name, Start_Data__c, (SELECT New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c  FROM Flights__r)  FROM Trip__c
+ 
 5.SELECT Name, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c
+
+SELECT Name, Tourist_Age__c, (Select trip__r.Name, Trip__r.Start_Data__c From Flights__r)  FROM Tourists__c
 
 6.SELECT Name, Trip__c, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c  FROM Flight__c
 where Trip__c = null
