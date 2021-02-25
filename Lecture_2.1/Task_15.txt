@@ -1,0 +1,15 @@
+//15. Необходимо написать программу, которая вычисляет числа Фибоначчи в пределах от 1 до N. Число N – объявлено в первой строки скрипта.
+
+integer nLast = 100;
+integer nCurrent = 0;
+integer nPrev = 0;
+while (nCurrent <= nLast) {
+System.debug(nCurrent);
+    if(nCurrent != 0) {
+integer temp = nCurrent;
+nCurrent = nCurrent + nPrev;
+nPrev = temp;
+}else {
+nCurrent = nCurrent+1;
+}
+}

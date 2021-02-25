@@ -1,0 +1,19 @@
+//8. Из созданного массива достать четные и нечетные числа.
+
+integer x = 10;
+integer [] Xarray = new integer [x];
+integer y = 1;
+integer i;
+for (i = 0; i < Xarray.size(); i++){ 
+        Xarray[i] = y++;
+            }
+for (i = 0; i < Xarray.size(); i++){ 
+    if(math.mod(Xarray[i],2) == 0) { 
+    system.debug(Xarray[i]);
+    }
+            }
+for (i = 0; i < Xarray.size(); i++){ 
+    if(math.mod(Xarray[i],2) != 0) { 
+    system.debug(Xarray[i]);
+    }
+}

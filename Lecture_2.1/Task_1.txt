@@ -1,0 +1,3 @@
+//1. Необходимо вывести в дебаг строку “Hello world”.
+
+System.debug('Hello Word');

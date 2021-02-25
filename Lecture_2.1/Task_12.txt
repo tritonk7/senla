@@ -1,0 +1,28 @@
+//12. Введите строку, состоящую из английских слов. Найти количество слов с одинаковой длиной. Использовать мапу, где ключ - длина слова, значение - количество слов.
+
+String Name = 'My name is Dima';
+String[] arr = Name.split(' ');
+Map<Integer, Integer> MyCollect = new Map<Integer, Integer>();
+        Integer i;
+        Integer j;
+        Integer numb = 0;
+        Integer count_repeat = 0; 
+        Integer max_repeat = 0; 
+                for (i = 0; i < arr.size(); i++) { 
+            count_repeat = 1;     
+            
+            for (j = i+1; j < arr.size(); j++) {
+                numb = arr[i].length(); 
+ 
+                if (arr[i].length() == arr[j].length() && (j != i)) { 
+                    count_repeat++; 
+                }           
+            }                       
+            if((max_repeat <= count_repeat) && (count_repeat != 1)){ 
+                                                                    
+                max_repeat = count_repeat; 
+                MyCollect.put(numb,max_repeat);
+            }
+        }
+System.debug('Слова с количеством букв: ' + MyCollect.keyset() );
+System.debug('Повторяются - ' + MyCollect.values() );

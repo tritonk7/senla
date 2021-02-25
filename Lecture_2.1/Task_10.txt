@@ -1,0 +1,9 @@
+//10. Есть строка слов(присвоенная вами переменной): вывести слова, стоящие на нечетных позициях.
+
+String input = 'Hello student of senla';
+String[] values = input.split(' ');
+for(integer i = 0; i < values.size(); i++) {
+    if(math.mod(i, 2)!=0){
+    system.debug(values[i]);
+    }
+}

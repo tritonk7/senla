@@ -1,0 +1,14 @@
+//16. Необходимо написать программу, которая проверяет число на “палиндромность”. Число для проверки объявлено в первой строки скрипта (Long numToCheck = 910019);
+
+Long x = 910019;
+String y = String.valueOf(x);
+boolean isPolindrom = true;
+integer index = 0;
+while (index < y.length()) {
+if (y.charAt(index) != y.charAt(y.length() - index - 1)) {
+isPolindrom = false;
+break;
+}
+index ++;
+}
+System.debug('Is the ' + y +  ' polyndrom? - '  + isPolindrom);
