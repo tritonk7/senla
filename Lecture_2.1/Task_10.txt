@@ -2,8 +2,8 @@
 
 String input = 'Hello student of senla';
 String[] values = input.split(' ');
-for(integer i = 0; i < values.size(); i++) {
-    if(math.mod(i, 2)!=0){
-    system.debug(values[i]);
-    }
+for (Integer i = 0; i < values.size(); i++) {
+	if (math.mod(i, 2) != 0) {
+		System.debug(values[i]);
+	}
 }

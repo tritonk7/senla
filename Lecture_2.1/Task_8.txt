@@ -1,19 +1,22 @@
 //8. Из созданного массива достать четные и нечетные числа.
 
-integer x = 10;
-integer [] Xarray = new integer [x];
-integer y = 1;
-integer i;
-for (i = 0; i < Xarray.size(); i++){ 
-        Xarray[i] = y++;
-            }
-for (i = 0; i < Xarray.size(); i++){ 
-    if(math.mod(Xarray[i],2) == 0) { 
-    system.debug(Xarray[i]);
-    }
-            }
-for (i = 0; i < Xarray.size(); i++){ 
-    if(math.mod(Xarray[i],2) != 0) { 
-    system.debug(Xarray[i]);
+Integer x = 10;
+Integer[] num = new integer[x];
+Integer y = 1;
+List<Integer> evenNum = new List<Integer>();
+List<Integer> oddNum = new List<Integer>();
+for (Integer i = 0; i < num.size(); i++) { 
+    num[i] = y++;
+}
+for (Integer i = 0; i < num.size(); i++) { 
+    if (math.mod(num[i], 2) == 0) { 
+        oddNum.add(i);
     }
 }
+for (Integer i = 1; i < num.size(); i++) { 
+    if (math.mod(num[i], 2) != 0) { 
+        evenNum.add(i);
+    }
+}
+System.debug('Even Numbers: ' + evenNum);
+System.debug('Odd Numbers: ' + oddNum);

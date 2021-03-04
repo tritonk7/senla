@@ -1,13 +1,10 @@
 //4. Необходимо вывести на экран таблицу умножения на 3.
 
-
-
-Integer X = 0;
-integer y = 3;
+Integer x = 0;
+Integer y = 3;
 Integer z = 0;
-
-while (x<=10){
-    z = x*y;
-    system.debug(x + '*' + y + '=' + z);
+while (x <= 10) {
+    z = x * y;
+    System.debug(x + '*' + y + '=' + z);
     x++;
 }

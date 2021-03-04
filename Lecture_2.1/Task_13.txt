@@ -1,15 +1,17 @@
-//13. Дана строка, состоящая из английских слов. Найти количество слов с одинаковой длиной слова. Использовать мапу, где ключ - длина слова, значение - список слов.
+/*13. Дана строка, состоящая из английских слов. Найти количество слов с одинаковой длиной слова. Использовать мапу, где ключ - длина слова, значение - список слов.*/
 
-String str = 'My Name is Dima';
-String [] strArr = str.split(' ');
+String inpVal = 'My Name is Dima';
+String[] strArr = inpVal.split(' ');
 Map<Integer, String> strMap = new Map<Integer, String>();
 
-for(Integer i = 0; i<strArr.size(); i++){
-  integer x = strArr[i].length();
-    if(strMap.containsKey(x)){
-        strMap.put(x,strMap.get(x)+','+ strArr[i]);
-    } else{
-            strMap.put(x, strArr[i]);
-        }
+for (Integer i = 0; i < strArr.size(); i++) {
+    Integer x = strArr[i].length();
+    
+    if (strMap.containsKey(x)) {
+        strMap.put(x,strMap.get(x) + ',' + strArr[i]);
+        
+    } else {
+        strMap.put(x, strArr[i]);
     }
-    System.debug(strMap);
+}
+System.debug(strMap);

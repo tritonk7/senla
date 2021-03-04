@@ -1,5 +1,5 @@
 //9. Есть строка слов(присвоенная вами переменной): вывести первое слово и последнее.
 
 String strValue = 'Hello student of senla';
-String [] strArr= strValue.split(' ');
-system.debug(strArr[0] + ' , ' + strArr[strArr.size() -1]);
+String[] strArr = strValue.split(' ');
+System.debug(strArr[0] + ' , ' + strArr[strArr.size() - 1]);
