@@ -1,0 +1,13 @@
+trigger TouristTrigger on Tourists__c (after insert, after update) {
+    
+    switch on Trigger.operationType {
+        
+        when AFTER_INSERT {
+            TouristService.markDuplicates(Trigger.new);
+        }
+        
+        when AFTER_UPDATE {
+            TouristTriggerHandler.afterUpdate(Trigger.new);
+        } 
+    }
+}
