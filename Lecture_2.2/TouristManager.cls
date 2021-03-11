@@ -10,59 +10,66 @@ TouristManager.selecttouristsByNull();*/
 
 public class TouristManager {
     
-    public static void selectTouristsByName(String name) {
-        List<Tourists__c> newListTourists = [SELECT Name, Tourist_Age__c FROM Tourists__c  WHERE Name = :name];
+    public static List<Tourists__c> selectTouristsByName(String name) {
+        List<Tourists__c> newListTourists = [
+            SELECT Name, Tourist_Age__c 
+            FROM Tourists__c  
+            WHERE Name = :name
+        ];
         
-        for (Tourists__c nameTourist: newListTourists) {
-            String otpName ='Name - ' + nameTourist.Name + ', Age - ' + nameTourist.Tourist_Age__c;
-            System.debug(otpName);
-        } 
+        return newListTourists;
     }
     
-    public static void selectTouristsByAge(List <Integer> age) {
-        List<Tourists__c> newListTourists = [SELECT Name, Tourist_Age__c FROM Tourists__c];
+    public static List<Tourists__c> selectTouristsByAge(List <Integer> age) {
+        List<Tourists__c> sortAge = new List<Tourists__c>();
+        List<Tourists__c> newListTourists = [
+            SELECT Name, Tourist_Age__c 
+            FROM Tourists__c
+        ];
         
         for (Tourists__c nameTourist : newListTourists) {
             
             for (Integer i: age) {
                 
                 if (nameTourist.Tourist_Age__c == i) {
-                    String otpName ='Name - ' + nameTourist.Name + ', Age - ' + nameTourist.Tourist_Age__c;
-                    System.debug(otpName);
+                    sortAge.add(nameTourist);
                 }
             }
         }
+        return sortAge;
     }
     
-    public static void selectTouristsByDate(String sDate) {
+    public static List<Tourists__c> selectTouristsByDate(String sDate) {
         Date dDate = Date.parse(sDate);
-        List<Tourists__c> newListTourists = [SELECT Name, Tourist_Age__c, (SELECT Trip__r.Start_Data__c FROM Flights__r WHERE Trip__r.Start_Data__c =: dDate) FROM Tourists__c];
+        List<Tourists__c> newListTourists = [
+            SELECT Name, Tourist_Age__c, 
+            (SELECT Trip__r.Start_Data__c 
+             FROM Flights__r 
+             WHERE Trip__r.Start_Data__c =: dDate) 
+            FROM Tourists__c
+        ];
         
-        for (Tourists__c nameTourist : newListTourists) {
-            String otpName ='Name - ' + nameTourist.Name + ', Age - ' + nameTourist.Tourist_Age__c;
-            System.debug(otpName);
-        }   
+        return newListTourists;
     }
     
-    public static void selectOftourists() {
-        List<Flight__c> newListTourists = [SELECT Name, Trip__c, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c FROM Flight__c WHERE Trip__c != null];
+    public static List<Flight__c> selectOftourists() {
+        List<Flight__c> newListTourists = [
+            SELECT Name, Trip__c, New_Tourist__r.Name, New_Tourist__r.Tourist_Age__c, trip__r.Name, trip__r.Start_Data__c 
+            FROM Flight__c 
+            WHERE Trip__c != null
+        ];
         
-        for (Flight__c nameTourist : newListTourists) {
-            String otpName = 'Name: ' + nameTourist.New_Tourist__r.Name
-                + ', Age: ' + nameTourist.New_Tourist__r.Tourist_Age__c 
-                + ', Trip Name: ' + nameTourist.trip__r.Name 
-                + ', Start Date: '
-                + nameTourist.trip__r.Start_Data__c;
-            System.debug(otpName);
-        } 
+        return newListTourists;
     }
     
-    public static void selecttouristsByNull() {
-        List<Flight__c> newListTourists = [SELECT New_Tourist__r.Name FROM Flight__c WHERE Trip__c = null];
+    public static List<Flight__c> selecttouristsByNull() {
+        List<Flight__c> newListTourists = [
+            SELECT New_Tourist__r.Name 
+            FROM Flight__c 
+            WHERE New_Tourist__r.Upcoming_Flights_Count__c = 0
+        ];
         
-        for (Flight__c nameTourist : newListTourists) {
-            String otpName = nameTourist.New_Tourist__r.Name;
-            System.debug(otpName);
-        }   
-    }  
+        return newListTourists;
+    } 
+    
 }
