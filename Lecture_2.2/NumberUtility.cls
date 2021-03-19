@@ -1,11 +1,13 @@
 /*Code for Anonymous:
 Integer n = 10;
+Long f = 101;
 NumberUtility.getSimpleNumbers(n);
 NumberUtility.getFibonachiNumbers(n);
-NumberUtility.polyndromNumber(n);*/
+NumberUtility.checkNumberForPalindromicity(f);*/
 
 public class NumberUtility {
-    public static void getSimpleNumbers(Integer n) {
+    
+    public static List<Integer> getSimpleNumbers(Integer n) {
         List<Integer> simpleNum = new List<Integer>();
         
         for (Integer i = 2; i < n; i++) {
@@ -21,9 +23,10 @@ public class NumberUtility {
             }
         }
         System.debug(simpleNum);
+        return simpleNum;
     }
     
-    public static void getFibonachiNumbers(Integer n) {
+    public static List<Integer> getFibonachiNumbers(Integer n) {
         integer nCurrent = 0;
         integer nPrev = 0;
         List<Integer> num = new List<Integer>();
@@ -41,10 +44,11 @@ public class NumberUtility {
             }
         }
         System.debug(num);
+        return num;
     }
     
-    public static void polyndromNumber(Integer n) {
-        String valN = String.valueOf(n);
+    public static Boolean checkNumberForPalindromicity(Long f) {
+        String valN = String.valueOf(f);
         Boolean isPolindrom = true;
         Integer index = 0;
         
@@ -57,5 +61,6 @@ public class NumberUtility {
             index ++;
         }
         System.debug('Is the number: ' + valN +  ' polyndrom? - '  + isPolindrom);
+        return isPolindrom;
     }
 }
