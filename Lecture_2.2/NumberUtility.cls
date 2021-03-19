@@ -1,14 +1,11 @@
-/*Code for Anonymous:
-Integer n = 10;
-Long f = 101;
-NumberUtility.getSimpleNumbers(n);
-NumberUtility.getFibonachiNumbers(n);
-NumberUtility.checkNumberForPalindromicity(f);*/
-
 public class NumberUtility {
     
-    public static List<Integer> getSimpleNumbers(Integer n) {
-        List<Integer> simpleNum = new List<Integer>();
+    public static List<Integer> getPrimeNums(Integer n) {
+        if (n == null || n < 0) {
+            return new List<Integer>();
+        }
+        
+        List<Integer> primeNums = new List<Integer>();
         
         for (Integer i = 2; i < n; i++) {
             Integer k = 0;
@@ -19,20 +16,23 @@ public class NumberUtility {
             }
             
             if (k<2) {
-                simpleNum.add(i);
+                primeNums.add(i);
             }
         }
-        System.debug(simpleNum);
-        return simpleNum;
+        return primeNums;
     }
     
-    public static List<Integer> getFibonachiNumbers(Integer n) {
+    public static List<Integer> getFibonachiNums(Integer n) {
+        if (n == null) {
+            return new List<Integer>();
+        }
+        
+        List<Integer> nums = new List<Integer>();
         integer nCurrent = 0;
         integer nPrev = 0;
-        List<Integer> num = new List<Integer>();
         
         while (nCurrent <= n) {
-            num.add(nCurrent);
+            nums.add(nCurrent);
             
             if (nCurrent != 0) {
                 Integer temp = nCurrent;
@@ -43,24 +43,15 @@ public class NumberUtility {
                 nCurrent = nCurrent + 1;
             }
         }
-        System.debug(num);
-        return num;
+        return nums;
     }
     
-    public static Boolean checkNumberForPalindromicity(Long f) {
-        String valN = String.valueOf(f);
-        Boolean isPolindrom = true;
-        Integer index = 0;
-        
-        while (index < valN.length()) {
-            
-            if (valN.charAt(index) != valN.charAt(valN.length() - index - 1)) {
-                isPolindrom = false;
-                break;
-            }
-            index ++;
+    public static Boolean isPolindrom(Long n) {
+        if (n == null) {
+            return false;
         }
-        System.debug('Is the number: ' + valN +  ' polyndrom? - '  + isPolindrom);
-        return isPolindrom;
+        
+        String valN = n.format();
+        return (valN == valN.reverse());
     }
 }
