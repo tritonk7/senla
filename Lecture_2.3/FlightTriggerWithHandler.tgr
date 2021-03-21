@@ -1,9 +1,9 @@
-trigger FlightTriggerWithHandler on Flight__c (before insert) {
+trigger FlightTriggerWithHandler on Flight__c (after insert) {
     
     switch on Trigger.operationType {
         
-        when BEFORE_INSERT {
-            FlightTriggerHandler.beforeInsert(Trigger.new);
+        when AFTER_INSERT {
+            FlightTriggerHandler.afterInsert(Trigger.newMap);
         }
     }
     

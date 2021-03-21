@@ -1,29 +1,20 @@
 public class TouristTriggerHandler {
     
     public static void afterUpdate(List<Tourists__c> checkTourist) {
-        List<Id> tourists = new List<Id>(); 
         
-        for (Tourists__c a : checkTourist) {
-            tourists.add(a.id);
-        }
-        
-        List<FlIght__c> changeAppStatus = [
-            SELECT Application_Status__c,
-            New_Tourist__r.Active__c,
-            New_Tourist__r.Id
-            FROM Flight__c
-            WHERE New_Tourist__r.id =: tourists];
-        
-        for (Flight__c a :changeAppStatus) {
+        if (!checkTourist.isEmpty() && checkTourist != null){
+            List<FlIght__c> changeStatus = TouristManager.getTouristsId();
+            List<FlIght__c> updateStatus = new List<FlIght__c>();
             
-            if (a.New_Tourist__r.Active__c != true){
-                a.Application_Status__c = 'Declined';                  
-                update changeAppStatus;
+            for (Flight__c a :changeStatus) {
                 
-            } else {
-                a.Application_Status__c = '';                  
-                update changeAppStatus;
+                if (a.New_Tourist__r.Active__c != true){
+                    a.Status__c = 'Declined';                  
+                    updateStatus.add(a);
+                }
+                
             }
+            update updateStatus;
         }
     }
 }

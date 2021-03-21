@@ -1,30 +1,19 @@
 public class FlightTriggerHandler {
     
-    public static void beforeInsert (List<Flight__c> flight) {
+    public static void afterInsert (Map<Id, Flight__c> newFlights) {
         
-        for (Flight__c a: flight) {
- 
-            Tourists__c tourist = [
-                SELECT id, Tourist_Age__c
-                FROM Tourists__c
-                WHERE id = : a.New_Tourist__c
-            ];
+        if (!newFlights.IsEmpty() && newFlights != null){
+            List<Flight__c> checkFlights = TouristManager.getFlightByTripAndTourist();
             
-            Trip__c trip = [
-                SELECT id, Mininmum_Age__c, Start_Data__c
-                FROM Trip__c
-                WHERE id = : a.Trip__c
-            ];
-            
-            if (tourist.Tourist_Age__c < trip.Mininmum_Age__c) {
-                a.New_Tourist__c.addError('Wrong Age for this flight');
-            } 
-            
-            if (trip.Start_Data__c < date.today()) {
-                a.Trip__c.addError('This flight departed');
+            for (Flight__c value :checkFlights) {
                 
+                if (value.New_Tourist__r.Tourist_Age__c < value.Trip__r.Mininmum_Age__c) {
+                    newFlights.get(value.Id).New_Tourist__c.addError('Wrong Age for this flight');
+                }
+                if (Date.today() > value.Trip__r.Start_Data__c) {
+                    newFlights.get(value.Id).Trip__c.addError('This flight departed');
+                }
             }
-            
         }
     }
 }

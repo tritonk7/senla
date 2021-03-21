@@ -8,6 +8,6 @@ trigger TouristTrigger on Tourists__c (after insert, after update) {
         
         when AFTER_UPDATE {
             TouristTriggerHandler.afterUpdate(Trigger.new);
-        } 
+        }
     }
 }
