@@ -3,7 +3,7 @@ public class FlightTriggerHandler {
     public static void afterInsert (Map<Id, Flight__c> newFlights) {
         
         if (!newFlights.IsEmpty() && newFlights != null){
-            List<Flight__c> checkFlights = TouristManager.getFlightByTripAndTourist();
+            List<Flight__c> checkFlights = FlightManager.getFlightByTripAndTourist();
             
             for (Flight__c value :checkFlights) {
                 
