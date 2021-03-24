@@ -64,14 +64,21 @@ public class TouristManager {
         
     }
     
-    public static List<Tourists__c> getNameEmailDuplicate() {
+    public static List<Tourists__c> getNameEmailDuplicate(Set<String> names, Set<String> emails) {
         
-        return [
-            SELECT Name,
-            IsDuplicate__c,
-            Tourist_Email__c
+            if((names.isEmpty() && emails.isEmpty()) || (names == null && emails == null)) {
+            return new List<Tourists__c>();
+        }
+        
+        return  [
+            SELECT Id, 
+            Name, 
+            Tourist_EMail__c,
+            CreatedDate
             FROM Tourists__c
-        ];
+            WHERE Tourist_EMail__c IN: emails
+            AND Name IN: names
+        ]; 
     }
     
     public static List<Tourists__c> getIdNameAgeCount() {
