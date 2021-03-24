@@ -1,8 +1,8 @@
-trigger TouristTrigger on Tourists__c (after insert, after update) {
+trigger TouristTrigger on Tourists__c (before insert, after update) {
     
     switch on Trigger.operationType {
         
-        when AFTER_INSERT {
+        when BEFORE_INSERT {
             TouristService.markDuplicates(Trigger.new);
         }
         
