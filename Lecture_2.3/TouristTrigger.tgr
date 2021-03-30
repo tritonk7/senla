@@ -1,13 +1,17 @@
 trigger TouristTrigger on Tourists__c (before insert, after update) {
     
-    switch on Trigger.operationType {
+    if(TouristTriggerHandler.isFirstTime) {
+        TouristTriggerHandler.isFirstTime = false;
         
-        when BEFORE_INSERT {
-            TouristService.markDuplicates(Trigger.new);
-        }
-        
-        when AFTER_UPDATE {
-            TouristTriggerHandler.afterUpdate(Trigger.new);
+        switch on Trigger.operationType {
+            
+            when BEFORE_INSERT {
+                TouristTriggerHandler.beforeInsert(Trigger.new);
+            }
+            
+            when AFTER_UPDATE {
+                TouristTriggerHandler.afterUpdate(Trigger.new);
+            }
         }
     }
 }

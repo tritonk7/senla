@@ -1,10 +1,14 @@
 trigger FlightTriggerWithHandler on Flight__c (after insert) {
     
-    switch on Trigger.operationType {
+    if(FlightTriggerHandler.isFirstTime) {
+        FlightTriggerHandler.isFirstTime = false;
         
-        when AFTER_INSERT {
-            FlightTriggerHandler.afterInsert(Trigger.newMap);
+        switch on Trigger.operationType {
+            
+            when AFTER_INSERT {
+                FlightTriggerHandler.afterInsert(Trigger.newMap);
+            }
         }
+        
     }
-    
 }
