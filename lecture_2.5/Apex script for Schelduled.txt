@@ -1,0 +1,7 @@
+ScheduledBatch executeBatch = new ScheduledBatch();
+String chr1 = '0 0 * * * ?';
+String chr2 = '0 30 * * * ?';
+String chr3 = '0 0 0 * * ?';
+String jobID1 = system.schedule('Schedule Work every hour', chr1, executeBatch);
+String jobID2 = system.schedule('Schedule Work every half hour', chr2,executeBatch);
+String jobID3 = system.schedule('Schedule work for every day at 0:00', chr3, executeBatch);
