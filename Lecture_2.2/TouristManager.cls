@@ -16,11 +16,11 @@ public class TouristManager {
     
     public static List<Tourists__c> getByAges(Set <Integer> ages) {
         List<Integer> correctAges = new List<Integer>();
-         
+        
         if (ages.IsEmpty() || ages == null || ages.contains(null)) {
             return new List<Tourists__c>();
         }
-    
+        
         for (Integer i : ages) {
             
             if (i >= 0 && i != null && i <= 110) {
@@ -66,18 +66,18 @@ public class TouristManager {
     
     public static List<Tourists__c> getNameEmailDuplicate(Set<String> names, Set<String> emails) {
         
-            if((names.isEmpty() && emails.isEmpty()) || (names == null && emails == null)) {
+        if ((names.isEmpty() && names == null) || (emails.isEmpty() && emails == null))  {
             return new List<Tourists__c>();
         }
         
         return  [
-            SELECT Id, 
+            SELECT Id,
             Name, 
-            Tourist_EMail__c,
-            CreatedDate
+            Tourist_EMail__c
             FROM Tourists__c
-            WHERE Tourist_EMail__c IN: emails
-            AND Name IN: names
+            WHERE Tourist_EMail__c IN : emails
+            AND Name IN : names
+            AND IsDuplicate__c = false
         ]; 
     }
     
@@ -91,5 +91,48 @@ public class TouristManager {
             FROM Tourists__c
         ];
     }
+    
+    public static List<Tourists__c> getIds(Set<Id> touristIds) {
+        
+        if (touristIds.isEmpty()  || touristIds == null) {
+            return new List<Tourists__c>();
+        }
+        
+        return  [
+            SELECT Id,
+            Name, 
+            Tourist_Email__c
+            FROM Tourists__c
+            WHERE Id IN : touristIds
+        ]; 
+    }
+    public static List<Tourists__c> getNames(Set<Id> touristsId) {
+        
+        if (touristsId.isEmpty()  || touristsId == null) {
+            return new List<Tourists__c>();
+        }
+        
+        return  [
+            SELECT Name 
+            FROM Tourists__c
+            WHERE Id IN : touristsId
+        ]; 
+    }
+    
+    public static List<String> getMetaEmails () {
+        
+        List<Tourist_Setting__mdt> meta = [
+            SELECT Email__c
+            FROM Tourist_Setting__mdt
+        ];
+        
+        List<String> email = new List<String>();
+        
+        for (Tourist_Setting__mdt item : meta){
+            email.add(item.Email__c);
+        }
+        
+        return email;
+    }  
     
 }

@@ -19,7 +19,9 @@ public class FlightManager {
             New_Tourist__c,
             New_Tourist__r.Active__c
             FROM Flight__c
-            WHERE New_Tourist__r.Active__c = false AND New_Tourist__c = :newTourists
+            WHERE New_Tourist__r.Active__c = false 
+            AND New_Tourist__c = :newTourists
+            AND Status__c != 'Declined'
         ];
     }
     
@@ -32,6 +34,20 @@ public class FlightManager {
             Trip__r.Mininmum_Age__c
             FROM Flight__c
             WHERE ID IN: newFlights.keyset()      
+        ];
+    }
+    
+    public static List<Flight__c> getByCreatedDateAndStatus(List<Flight__c> scope) {
+        if (scope == null && scope.isEmpty()) {
+            return new List<Flight__c>();
+        }
+        return  [
+            SELECT Id,
+            New_Tourist__c
+            FROM Flight__c 
+            WHERE Id IN : scope 
+            AND (Status__c = 'Declined' 
+                 OR CreatedDate < LAST_N_DAYS : 29)
         ];
     }
     
