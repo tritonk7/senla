@@ -1,0 +1,12 @@
+trigger BatchApexErrorEventTriggerWithHandler on BatchApexErrorEvent (after insert) {
+    
+    if (BatchEventTriggerHandler.isFirstTime) {
+        BatchEventTriggerHandler.isFirstTime = false;
+        
+        switch on Trigger.operationtype {
+            when AFTER_INSERT {
+                BatchEventTriggerHandler.onAfterInsert(Trigger.new); 
+            }
+        }
+    }
+}
