@@ -4,4 +4,4 @@ String chr2 = '0 30 * * * ?';
 String chr3 = '0 0 0 * * ?';
 String jobID1 = system.schedule('Run Flight Delete Process', chr1, executeBatch);
 String jobID2 = system.schedule('Run Flight Delete Process', chr2,executeBatch);
-String jobID3 = system.schedule('Run Flight Delete Process', chr3, executeBatch);
+String jobID3 = system.schedule('Run Flight Delete Process', chr3, executeBatch);  
