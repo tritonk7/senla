@@ -14,6 +14,5 @@ public class TouristTriggerHandler {
             updateStatus.add(flight);
         }
         update updateStatus;
-    }
-    
+    } 
 }
