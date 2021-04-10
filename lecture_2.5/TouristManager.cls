@@ -104,18 +104,4 @@ public class TouristManager {
             WHERE Id IN : touristsId
         ]; 
     }
-    
-    public static Set<String> getMetaEmails () {
-        List<Tourist_Setting__mdt> meta = [
-            SELECT Email__c
-            FROM Tourist_Setting__mdt
-        ];
-        Set<String> email = new Set<String>();
-        
-        for (Tourist_Setting__mdt item : meta){
-            email.add(item.Email__c);
-        }
-        return email;
-    }  
-    
 }
