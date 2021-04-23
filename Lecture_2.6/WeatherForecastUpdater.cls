@@ -7,7 +7,6 @@ public class WeatherForecastUpdater {
         
         for (Space_Point__c spacePoint : spacePointList) {
             Map<Date, Decimal> forecastMap = WeatherForecastService.getForecasts(spacePoint.Latitude__c, spacePoint.Longitude__c);
-            
             for (Date item : forecastMap.keyset()) {
                 Weather_Daily_Forecast__c dailyForecast = new Weather_Daily_Forecast__c();
                 dailyForecast.Average_Temperature__c = forecastMap.get(item);
