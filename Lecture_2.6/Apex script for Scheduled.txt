@@ -1,0 +1,4 @@
+UpdateForecastsSchedulable executeBatch = new UpdateForecastsSchedulable();
+String chr1 = '0 0 0 * * ?';
+String jobID1 = system.schedule('Run Forecast Update Process', chr1, executeBatch);
+  
