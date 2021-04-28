@@ -3,7 +3,7 @@ public class WeatherForecastServiceCallouts {
     private static final String REQUEST_PARAM_DATETIME = 'datetime';
     private static final String REQUEST_PARAM_TEMP = 'temp';    
     
-    public static Map<Date, Decimal> getforecastsData(Map<String, Object> jsonMeta) { 
+    public static Map<Date, Decimal> getForecastsData(Map<String, Object> jsonMeta) { 
         Map<Date, Decimal> forecastMap = new Map<Date, Decimal>();
         List<Object> dataList = (List<Object>) jsonMeta.get(REQUEST_PARAM_DATA);
         
