@@ -7,7 +7,7 @@ public class WeatherForecastService {
         Map<Date, Decimal> forecastMap = new Map<Date, Decimal>();
         if (response.getStatusCode() == Constants.RESPONSE_STATUS_CODE_200) { 
             Map<String, Object> jsonMeta = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            forecastMap = WeatherForecastServiceCallouts.getforecastsData(jsonMeta);
+            forecastMap = WeatherForecastServiceCallouts.getForecastsData(jsonMeta);
         } else {
             throw new WeatherForecastException(Constants.WEATHER_FORECAST_SERVICE_EXCEPTION_ERROR);
         }                   
