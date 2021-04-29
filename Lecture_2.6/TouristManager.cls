@@ -1,15 +1,18 @@
 public class TouristManager {
     
-    public static List<Tourists__c> getByName(String name) {
-        if (String.isBlank(name)) {
+    public static List<Tourists__c> getByName(String fuzzyName) {
+        if (String.isBlank(fuzzyName)) {
             return new List<Tourists__c>();
         }
-        return [
-            SELECT Name, 
-            Tourist_Age__c 
-            FROM Tourists__c  
-            WHERE Name = :name
+        List<List<sObject>> result = [
+            FIND :fuzzyName IN Name FIELDS RETURNING Tourists__c(
+                Id,
+                Name, 
+                Tourist_Age__c
+            )
         ];
+        List<Tourists__c> tourist = result.get(0);
+        return tourist;
     }
     
     public static List<Tourists__c> getByAges(Set <Integer> ages) {
@@ -105,21 +108,22 @@ public class TouristManager {
         ]; 
     }
     
-    public static List<Tourists__c> getByNameAgeParametrs(String name, Integer age) {
-        if (String.isBlank(name) || age == null) {
+    public static List<Tourists__c> getByNameAndAge(String fuzzyName, Integer age) {
+        if (String.isBlank(fuzzyName) || age == null) {
             return new List<Tourists__c>();
         }
         List<List<sObject>> result = [
-            FIND :name IN Name FIELDS RETURNING Tourists__c(
+            FIND :fuzzyName IN Name FIELDS RETURNING Tourists__c(
                 Id,
                 Name, 
-                Tourist_Age__c WHERE Tourist_Age__c = :age)
+                Tourist_Age__c 
+                WHERE Tourist_Age__c = :age)
         ];
         List<Tourists__c> tourist = result.get(0);
         return tourist;
     } 
     
-    public static List<Tourists__c> getByNameEmail(String name, String email) {
+    public static List<Tourists__c> getByNameAndEmail(String name, String email) {
         if (String.isBlank(name) || String.isBlank(email)) {
             return new List<Tourists__c>();
         }
