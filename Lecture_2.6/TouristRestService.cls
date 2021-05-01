@@ -9,22 +9,28 @@ global with sharing class TouristRestService {
         RestResponse response = RestContext.response;
         String touristName = request.params.get(REQUEST_PARAM_FUZZYNAME);
         String touristAgeString = request.params.get(REQUEST_PARAM_AGE);
-        TouristRestServiceValidations.nameNullAgeNotNumeric(touristName, touristAgeString);
-        TouristRestServiceValidations.nameAndAgeNotNull(touristName, touristAgeString);
+        try {
+            TouristRestServiceValidations.nameNullAgeNotNumeric(touristName, touristAgeString);
+            if (String.isBlank(touristAgeString)) {
+                TouristRestServiceCallOuts.getTouristsByName(touristName);
+            } else {
+                TouristRestServiceCallOuts.getTouristsByNameAndAge(touristName, touristAgeString);  
+            }  
+        } catch(RestRequestValidationException ex) {
+            response.responseBody = Blob.valueOf(ex.getMessage());
+            response.statusCode = ex.getStatusCode();
+        }
     }
-      
+    
     @HttpPost
     global static void createTourist(String name, String birthday, String email) {
         RestResponse response = RestContext.response;
-        TouristRestServiceValidations.isTouristDuplicate(name, email);
-        Tourists__c newTourist = new Tourists__c
-            (
-                Name = name,
-                Birthday__c = Date.valueOf(birthday),
-                Tourist_Email__c = email
-            );
-        insert newTourist;
-        response.responseBody = Blob.valueOf(JSON.serializePretty(newTourist));
-        response.statusCode = Constants.RESPONSE_STATUS_CODE_200;
+        try{
+            TouristRestServiceValidations.isTouristDuplicate(name, email);
+            TouristRestServiceCallOuts.createTourists(name, birthday, email);
+        } catch (RestRequestValidationException ex) {
+            response.responseBody = Blob.valueOf(ex.getMessage());
+            response.statusCode = ex.getStatusCode();
+        }
     }
 }
