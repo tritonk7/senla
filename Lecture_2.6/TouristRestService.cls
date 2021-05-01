@@ -10,7 +10,7 @@ global with sharing class TouristRestService {
         String touristName = request.params.get(REQUEST_PARAM_FUZZYNAME);
         String touristAgeString = request.params.get(REQUEST_PARAM_AGE);
         try {
-            TouristRestServiceCallouts.getNameAndAgeForCheck(touristName, touristAgeString);
+            TouristRestServiceValidations.requestValidation(touristName, touristAgeString);
             if (String.isBlank(touristAgeString)) {
                 TouristRestServiceCallouts.getTouristsByName(touristName);
             } else {
