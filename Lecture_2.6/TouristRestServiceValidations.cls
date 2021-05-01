@@ -1,19 +1,20 @@
 public class TouristRestServiceValidations {
     
-    public static void nameisNull(String touristName) {  
-        if (String.isBlank(touristName)) {    
-            String errMsg = Constants.RESPONSE_BODY_NAME_EMPTY;
-            Integer statusCode = Constants.RESPONSE_STATUS_CODE_404;
-            throw new RestRequestValidationException(errMsg, statusCode);
+    public static void requestValidation(String touristName, String touristAgeString) {  
+        List<String> errors = new List<String>();
+        String errMsg;
+        if (String.isBlank(touristName)) {
+            errMsg = Constants.RESPONSE_BODY_NAME_EMPTY;
+            errors.add(errMsg);  
+        }
+        if (!String.isBlank(touristAgeString) && !touristAgeString.isNumeric()) {
+            errMsg = Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE;
+            errors.add(Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE);
         } 
-    }
-    
-    public static void ageIsNotNumeric(String touristAgeString) {
-        if (!(String.isBlank(touristAgeString) || touristAgeString.isNumeric())) {
-            String errMsg = Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE;
+        if (!errors.isEmpty()) {
             Integer statusCode = Constants.RESPONSE_STATUS_CODE_404;
-            throw new RestRequestValidationException(errMsg, statusCode);
-        } 
+            throw new RestRequestValidationException(errMsg, statusCode);       
+        }
     }
     
     public static void isTouristDuplicate(String name, String email) {
