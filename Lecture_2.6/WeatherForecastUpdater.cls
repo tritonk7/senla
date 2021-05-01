@@ -18,7 +18,7 @@ public class WeatherForecastUpdater {
                     );
                     newDailyForecasts.add(dailyForecast);
                 }      
-            } catch (Exception ex) {
+            } catch (WeatherForecastService.WeatherForecastException ex) {
                 System.debug(LoggingLevel.ERROR, ex.getMessage());
             }
         }
