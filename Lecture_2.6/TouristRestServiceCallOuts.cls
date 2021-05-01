@@ -1,10 +1,5 @@
 public class TouristRestServiceCallouts {
     
-    public static void getNameAndAgeForCheck(String touristName, String touristAgeString) {
-        TouristRestServiceValidations.nameisNull(touristName);
-        TouristRestServiceValidations.ageIsNotNumeric(touristAgeString);
-    }
-    
     public static void getTouristsByName(String touristName) {
         RestResponse response = RestContext.response;
         List<Tourists__c> tourists = TouristManager.getByName(touristName);
