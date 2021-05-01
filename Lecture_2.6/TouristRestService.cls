@@ -10,11 +10,11 @@ global with sharing class TouristRestService {
         String touristName = request.params.get(REQUEST_PARAM_FUZZYNAME);
         String touristAgeString = request.params.get(REQUEST_PARAM_AGE);
         try {
-            TouristRestServiceCallOuts.getNameAndAgeForCheck(touristName, touristAgeString);
+            TouristRestServiceCallouts.getNameAndAgeForCheck(touristName, touristAgeString);
             if (String.isBlank(touristAgeString)) {
-                TouristRestServiceCallOuts.getTouristsByName(touristName);
+                TouristRestServiceCallouts.getTouristsByName(touristName);
             } else {
-                TouristRestServiceCallOuts.getTouristsByNameAndAge(touristName, touristAgeString);  
+                TouristRestServiceCallouts.getTouristsByNameAndAge(touristName, touristAgeString);  
             }  
         } catch(RestRequestValidationException ex) {
             response.responseBody = Blob.valueOf(ex.getMessage());
@@ -27,7 +27,7 @@ global with sharing class TouristRestService {
         RestResponse response = RestContext.response;
         try{
             TouristRestServiceValidations.isTouristDuplicate(name, email);
-            TouristRestServiceCallOuts.createTourists(name, birthday, email);
+            TouristRestServiceCallouts.createTourists(name, birthday, email);
         } catch (RestRequestValidationException ex) {
             response.responseBody = Blob.valueOf(ex.getMessage());
             response.statusCode = ex.getStatusCode();
