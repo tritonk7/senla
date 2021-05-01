@@ -1,4 +1,4 @@
-public class TouristRestServiceCallOuts {
+public class TouristRestServiceCallouts {
     
     public static void getNameAndAgeForCheck(String touristName, String touristAgeString) {
         TouristRestServiceValidations.nameisNull(touristName);
