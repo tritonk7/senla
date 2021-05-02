@@ -9,7 +9,7 @@ public class TouristRestServiceValidations {
         }
         if (!String.isBlank(touristAgeString) && !touristAgeString.isNumeric()) {
             errMsg = Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE;
-            errors.add(Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE);
+            errors.add(errMsg);
         } 
         if (!errors.isEmpty()) {
             Integer statusCode = Constants.RESPONSE_STATUS_CODE_404;
