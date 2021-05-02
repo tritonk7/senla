@@ -10,6 +10,7 @@ public class Constants {
     public static final String SPACE_CHARACTER = ' ';
     public static final String WEATHERBIT_IO_API_KEY = '15c19f9be3e140e7acd90f081ef2cfbc';
     public static final String WEATHERBIT_IO_END_POINT = 'https://api.weatherbit.io/v2.0/forecast/daily';
+    public static final String NAMED_CREDENTIALS_WEATHERBIT = 'callout:WeatherAPI/';
     public static final String WEATHER_FORECAST_SERVICE_EXCEPTION_ERROR = 'An error occurred in the process.';
     public static final String HTTP_METHOD_GET = 'GET';
     public static final Integer DELETE_FLIGH_DAYS = 29;
