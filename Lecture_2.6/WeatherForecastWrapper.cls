@@ -8,7 +8,7 @@ public class WeatherForecastWrapper {
         public Decimal temp;
     }
     
-    public static WeatherForecastWrapper parse(String json) {
-        return (WeatherForecastWrapper) System.JSON.deserialize(json.replace(JSON_FIELD_NAME_DATETIME, JSON_FIELD_NAME_DATETIME_X), WeatherForecastWrapper.class);
+    public static WeatherForecastWrapper parse(String jsonResponse) {
+        return (WeatherForecastWrapper) System.JSON.deserialize(jsonResponse.replace(JSON_FIELD_NAME_DATETIME, JSON_FIELD_NAME_DATETIME_X), WeatherForecastWrapper.class);
     }
 }
