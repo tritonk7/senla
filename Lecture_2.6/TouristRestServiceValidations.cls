@@ -1,17 +1,14 @@
 public class TouristRestServiceValidations {
     
     public static void requestValidation(String touristName, String touristAgeString) {  
-        List<String> errors = new List<String>();
         String errMsg;
         if (String.isBlank(touristName)) {
-            errMsg = Constants.RESPONSE_BODY_NAME_EMPTY;
-            errors.add(errMsg);  
+            errMsg = Constants.RESPONSE_BODY_NAME_EMPTY; 
         }
         if (!String.isBlank(touristAgeString) && !touristAgeString.isNumeric()) {
             errMsg = Constants.RESPONSE_BODY_AGE_NOT_INTEGER_TYPE;
-            errors.add(errMsg);
         } 
-        if (!errors.isEmpty()) {
+        if (!String.isEmpty(errMsg)) {
             Integer statusCode = Constants.RESPONSE_STATUS_CODE_404;
             throw new RestRequestValidationException(errMsg, statusCode);       
         }
