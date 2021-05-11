@@ -1,35 +1,54 @@
-@isTest
+@IsTest
 private class FlightManagerTest {
+    private static List<Flight__c> newFlights;
     
-    @isTest
-    static void testGetTouristsNotRegistred() {
-        TestDataFactory.createFlight();
-        List<Flight__c> flight = FlightManager.getTouristsNotRegistred();
-        System.assertEquals(0, flight.size());
+    static {
+        newFlights = TestDataFactory.createFlights();
     }
     
-    @isTest
-    static void testGetStatusTourist() {
-        TestDataFactory.createFlight();
-        List<Tourists__c> tourist = TestDataFactory.getTourists();
-        System.assertEquals(1, tourist.size());
-        List<Flight__c> flight = FlightManager.getStatusTourist(tourist);
-        System.assertEquals(1, flight.size());
-        flight = FlightManager.getStatusTourist(null);
-        System.assertEquals(0, flight.size());
+    @IsTest
+    private static void testGetTouristsNotRegistred() {
+        List<Flight__c> result = FlightManager.getTouristsNotRegistred();
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
     }
     
-    @isTest
-    static void testGetByTouristTripAges() {
+    @IsTest
+    private static void testGetStatusTourist() {
+        List<Tourists__c> tourists = TestDataFactory.getTourists();        
+        List<Flight__c> result = FlightManager.getStatusTourist(tourists);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(1, result.size());
+    }
+    
+    @IsTest
+    private static void testGetStatusTouristIsNegative() {       
+        List<Flight__c> result = FlightManager.getStatusTourist(null);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByTouristTripAges() {
         Map<Id, Flight__c> newflightsMap = new Map<Id, Flight__c>(); 
-        List<Flight__c> flight = FlightManager.getByTouristTripAges(null);
-        System.assertEquals(0, flight.size());
-        TestDataFactory.createFlight();
-        List<Flight__c> getFlight = TestDataFactory.getFlights();
-        for (Flight__c item : getFlight) {
+        List<Flight__c> getFlights = TestDataFactory.getFlights();
+        for (Flight__c item : getFlights) {
             newflightsMap.put(item.Id,item);
         }
-        flight = FlightManager.getByTouristTripAges(newflightsMap);
-        System.assertEquals(1, newflightsMap.size());
+        List<Flight__c> result = FlightManager.getByTouristTripAges(newflightsMap);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(2, result.size());
     }
+    
+    @IsTest
+    private static void testGetByTouristTripAgesIsNegative() {
+        List<Flight__c> result = FlightManager.getByTouristTripAges(null);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }  
 }

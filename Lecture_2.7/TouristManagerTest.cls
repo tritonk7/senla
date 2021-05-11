@@ -1,34 +1,48 @@
 @IsTest
 private class TouristManagerTest {
+    private static List<Tourists__c> newTourists;
+    
+    static {
+        newTourists = TestDataFactory.createTourists();
+    }
     
     @IsTest
-    static void testGetByNameSOQL() {
-        TestDataFactory.createTourists();
-        List<Tourists__c> tourists = TestDataFactory.getTourists();
-        String name = tourists[0].Name; 
-        List<Tourists__c> touristsByName = TouristManager.getByNameSOQL(name);
-        System.assertEquals(1, touristsByName.size());
-        String nameIsBlank;
-        touristsByName = TouristManager.getByNameSOQL(nameIsBlank);
-        System.assertEquals(0, touristsByName.size());
+    private static void testGetByNameSOQL() {
+        List<sObject> result = TouristManager.getByNameSOQL(newTourists[0].Name);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(1, result.size());
     } 
     
     @IsTest
-    static void testGetByName() {
-        TestDataFactory.createTourists();
-        List<Tourists__c> tourists = TestDataFactory.getTourists();
-        Id[] fixedSearchResults = new Id[]{tourists[0].Id};
-            Test.setFixedSearchResults(fixedSearchResults);
-        List<sObject> resultsIsNull = TouristManager.getByName(null);
-        List<sObject> results = TouristManager.getByName(tourists[0].Name);
-        System.assertEquals(tourists[0].Id, results[0].Id, 'Tourist Ids should match');
-        System.assertEquals(1, results.size());
-        System.assertEquals(0, resultsIsNull.size());
-    }
+    private static void testGetByNameSOQLIsNegative() {
+        List<Tourists__c> result = TouristManager.getByNameSOQL(null);
         
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
     @IsTest
-    static void testgetByAges() {
-        TestDataFactory.createTourists();
+    private static void testGetByName() {
+        Id[] fixedSearchResults = new Id[]{newTourists[0].Id};
+            System.Test.setFixedSearchResults(fixedSearchResults);
+        List<sObject> result = TouristManager.getByName(newTourists[0].Name);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(newTourists[0].Id, result[0].Id, 'Tourist Ids should match');
+        System.assertEquals(1, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByNameIsNegative() {
+        List<sObject> result = TouristManager.getByName(null);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
+    @IsTest
+    private static void testgetByAges() {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         Set<Integer> ages = new Set<Integer>();
         
@@ -36,36 +50,51 @@ private class TouristManagerTest {
             Integer age = Integer.valueOf(tourist.Tourist_Age__c);
             ages.add(age);
         }
-        List<Tourists__c> touristsByAge = TouristManager.getByAges(ages);
-        System.assertEquals(4, touristsByAge.size());
-        ages = new Set<Integer>();
-        touristsByAge = TouristManager.getByAges(ages);
-        System.assertEquals(0, touristsByAge.size());
+        List<Tourists__c> result = TouristManager.getByAges(ages);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(4, result.size());
     }
     
     @IsTest
-    static void testGetByFlightDate() {
-        TestDataFactory.createFlight();
-        List<Tourists__c> tourist = TestDataFactory.getTourists();
+    private static void testgetByAgesIsNegative() {
+        Set<Integer> ages = new Set<Integer>();
+        List<Tourists__c> result = TouristManager.getByAges(ages);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByFlightDate() {
+        List<Flight__c> newFlights = TestDataFactory.createFlights();
         Integer year = 2021;
-        Integer nextYear = 20221;
-        List<Tourists__c> touristsByFlightDate = TouristManager.getByFlightDate(year);
-        System.assertEquals(1, touristsByFlightDate.size());
-        touristsByFlightDate = TouristManager.getByFlightDate(nextYear);
-        System.assertEquals(0, touristsByFlightDate.size());
+        List<Tourists__c> result = TouristManager.getByFlightDate(year);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(1, result.size());    
     }
     
     @IsTest
-    static void testGetByTrip() {
-        TestDataFactory.createFlight();
-        List<Tourists__c> tourist = TestDataFactory.getTourists();
-        List<Tourists__c> touristsByTrip = TouristManager.getByTrip();
-        System.assertEquals(1, touristsByTrip.size());
+    private static void testGetByFlightDateIsNegative() {
+        Integer year = 20213;
+        List<Tourists__c> result = TouristManager.getByFlightDate(year);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());    
     }
     
     @IsTest
-    static void testGetNameEmailDuplicate() {
-        TestDataFactory.createTourists();
+    private static void testGetByTrip() {
+        List<Flight__c> newFlights = TestDataFactory.createFlights();
+        List<Tourists__c> result = TouristManager.getByTrip();
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(newTourists[0].id, result[0].id);
+    }
+    
+    @IsTest
+    private static void testGetNameEmailDuplicate() {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         Set<String> name = new Set<String>();
         Set<String> email = new Set<String>();
@@ -74,74 +103,109 @@ private class TouristManagerTest {
             name.add(item.Name);
             email.add(item.Tourist_Email__c);
         }
-        List<Tourists__c> touristsDuplicateCheck = TouristManager.getNameEmailDuplicate(name, email);
-        System.assertEquals(3, touristsDuplicateCheck.size());
-        Set<String> nameCheck = new Set<String>();
-        Set<String> emailCheck = new Set<String>();
-        touristsDuplicateCheck = TouristManager.getNameEmailDuplicate(nameCheck, emailCheck);
-        System.assertEquals(0, touristsDuplicateCheck.size()); 
+        List<Tourists__c> result = TouristManager.getNameEmailDuplicate(name, email);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(3, result.size());
     }
     
     @IsTest
-    static void testGetIdNameAgeCount() {
-        TestDataFactory.createTourists();
-        List<Tourists__c> tourists = TouristManager.getIdNameAgeCount();
-        System.assertEquals(4, tourists.size());
+    private static void testGetNameEmailDuplicateIsNegative() {
+        Set<String> name = new Set<String>();
+        Set<String> email = new Set<String>();
+        List<Tourists__c> result = TouristManager.getNameEmailDuplicate(name, email);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
     }
     
     @IsTest
-    static void testGetByIds() {
-        TestDataFactory.createTourists();
+    private static void testGetIdNameAgeCount() {
+        List<Tourists__c> result = TouristManager.getIdNameAgeCount();
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(4, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByIds() {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         Set<Id> touristsId = new Set<Id>();
-        Set<Id> touristsIdisEmpty = new Set<Id>();
-        List<Tourists__c> checkTourists = TouristManager.getByIds(touristsIdisEmpty);
-        System.assertEquals(0, checkTourists.size());
         
         for (Tourists__c item : tourists) {
             touristsId.add(item.Id);
         }
-        checkTourists = TouristManager.getByIds(touristsId);
-        System.assertEquals(4, checkTourists.size());
+        List<Tourists__c> result = TouristManager.getByIds(touristsId);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(4, result.size());
     }
     
     @IsTest
-    static void testGetNameById() {
-        TestDataFactory.createTourists();
+    private static void testGetByIdsIsNegative() {
+        Set<Id> touristsId = new Set<Id>();
+        List<Tourists__c> result = TouristManager.getByIds(touristsId);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
+    @IsTest
+    private static void testGetNameById() {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         Set<Id> touristsId = new Set<Id>();
-        Set<Id> touristsIdisEmpty = new Set<Id>();
-        List<Tourists__c> checkTourists = TouristManager.getNameById(touristsIdisEmpty);
-        System.assertEquals(0, checkTourists.size());
         
         for (Tourists__c item : tourists) {
             touristsId.add(item.Id);
-        }
-        checkTourists = TouristManager.getNameById(touristsId);
-        System.assertEquals(4, checkTourists.size());
+        } 
+        List<Tourists__c> result = TouristManager.getNameById(touristsId);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(4, result.size());
     }
     
     @IsTest
-    static void testGetByNameAndAge() {
-        TestDataFactory.createTourists();
-        List<Tourists__c> tourists = TestDataFactory.getTourists();
-        Id [] fixedSearchResults = new Id[]{tourists[0].Id};
+    private static void testGetNameByIdIsNegative() {
+        Set<Id> touristsId = new Set<Id>();
+        
+        List<Tourists__c> result = TouristManager.getNameById(touristsId);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByNameAndAge() {
+        Id [] fixedSearchResults = new Id[]{newTourists[0].Id};
             Test.setFixedSearchResults(fixedSearchResults);
-        List<sObject> resultsIsNull = TouristManager.getByNameAndAge(null, null);
-        List<sObject> results = TouristManager.getByNameAndAge(tourists[0].Name, 21);
-        System.assertEquals(1, results.size());
-        System.assertEquals(0, resultsIsNull.size());
+        Integer age = 21;
+        List<sObject> result = TouristManager.getByNameAndAge(newTourists[0].Name, age);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(1, result.size());
     }
     
     @IsTest
-    public static void testGetByNameAndEmail() {
-        TestDataFactory.createTourists();
-        List<Tourists__c> tourists = TestDataFactory.getTourists();
-        String name = tourists[0].Name;
-        String email = tourists[0].Tourist_Email__c;
-        List<Tourists__c> touristsByNameAndEmail = TouristManager.getByNameAndEmail(name, email);
-        System.assertEquals(1, touristsByNameAndEmail.size());
-        touristsByNameAndEmail = TouristManager.getByNameAndEmail(null,null);
-        System.assertEquals(0, touristsByNameAndEmail.size());
+    private static void testGetByNameAndAgeIsNegative() {
+        List<sObject> result = TouristManager.getByNameAndAge(null, null);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
     }
+    
+    @IsTest
+    private static void testGetByNameAndEmail() {
+        List<Tourists__c> result = TouristManager.getByNameAndEmail(newTourists[0].Name, newTourists[0].Tourist_Email__c);
+        
+        System.assertNotEquals(null, result);
+        System.assertEquals(1, result.size());
+    }
+    
+    @IsTest
+    private static void testGetByNameAndEmailIsNegative() {
+        List<Tourists__c> result = TouristManager.getByNameAndEmail(null, null);
+        
+        System.assertEquals(true, result.isEmpty());
+        System.assertEquals(0, result.size());
+    } 
 }

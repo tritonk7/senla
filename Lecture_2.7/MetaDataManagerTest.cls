@@ -1,9 +1,11 @@
-@isTest
-public class MetaDataManagerTest {
+@IsTest
+private class MetaDataManagerTest {
     
-    @isTest
-    public static void testGetMetaEmails() {
+    @IsTest
+    private static void testGetMetaEmails() {
         Set<String> emails = MetaDataManager.getMetaEmails();
+        
+        System.assertNotEquals(null, emails);
         System.assertEquals(1, emails.size());
     }
 }
