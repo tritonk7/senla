@@ -13,8 +13,9 @@ private class WeatherForecastServiceTest {
         Http http = new Http();
         HttpResponse response = new HttpResponse();
         
-        Test.startTest();
         Test.setMock(HttpCalloutMock.class, new WeatherGlobalHttpMockIsSuccess());
+        
+        Test.startTest();
         Map<Date, Decimal> result = WeatherForecastService.getForecasts(newSpacePoints[0].Latitude__c, newSpacePoints[0].Longitude__c);
         Test.stopTest();
         
@@ -28,10 +29,11 @@ private class WeatherForecastServiceTest {
         Http http = new Http();
         HttpResponse response = new HttpResponse();
         
-        Test.startTest();
         Test.setMock(HttpCalloutMock.class, new WeatherGlobalHttpMockIsWrong());
+        
+        Test.startTest();
         Map<Date, Decimal> checkresult = new Map <Date, Decimal>();
-       
+        
         try {
             Map<Date, Decimal> result = WeatherForecastService.getForecasts(newSpacePoints[0].Latitude__c, newSpacePoints[0].Longitude__c);
             checkresult.putAll(result);
