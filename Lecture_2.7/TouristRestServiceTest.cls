@@ -21,6 +21,7 @@ private class TouristRestServiceTest {
         TouristRestService.getTourist();
         Test.stopTest();
         
+        System.assertNotEquals(null, RestContext.response.responseBody);
         System.assertEquals(Constants.RESPONSE_STATUS_CODE_200, RestContext.response.statusCode);
     }
     
@@ -39,6 +40,7 @@ private class TouristRestServiceTest {
         TouristRestService.getTourist();
         Test.stopTest();
         
+        System.assertNotEquals(null, RestContext.response.responseBody);
         System.assertEquals(Constants.RESPONSE_STATUS_CODE_200, RestContext.response.statusCode);
     }
     
@@ -112,6 +114,7 @@ private class TouristRestServiceTest {
         TouristRestService.createTourist(name, birthday, email);
         Test.stopTest();
         
+        System.assertNotEquals(null, RestContext.response.responseBody);
         System.assertEquals(Constants.RESPONSE_STATUS_CODE_200, RestContext.response.statusCode);
     }
 }
