@@ -8,6 +8,7 @@ private class WeatherForecastServiceTest {
     
     @IsTest
     private static void testGetForecasts() {
+        
         Test.setMock(HttpCalloutMock.class, new WeatherGlobalHttpMockIsSuccess());
         
         Test.startTest();
@@ -20,6 +21,7 @@ private class WeatherForecastServiceTest {
     
     @IsTest
     private static void testGetForecastsIsNegative() {
+        
         Test.setMock(HttpCalloutMock.class, new WeatherGlobalHttpMockIsWrong());
         
         Test.startTest();
@@ -33,6 +35,7 @@ private class WeatherForecastServiceTest {
             
             System.AssertEquals(true, expectedExceptionThrown);
         }
+        
         Test.stopTest();
         
         System.assertEquals(true, checkresult.isEmpty());
