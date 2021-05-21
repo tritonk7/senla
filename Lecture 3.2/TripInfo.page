@@ -1,0 +1,43 @@
+<apex:page standardController="Trip__c" extensions="TripInfoControllerExtension" lightningStylesheets="true">
+    <apex:pageBlock title="Trip Information">
+        
+        <apex:pageBlockSection columns="1" title="General Information.">
+            <apex:outputField value="{!Trip__c.Name}"/>
+            <apex:outputField value="{!Trip__c.Start_Data__c}"/>
+             <apex:outputField value="{!Trip__c.Mininmum_Age__c}"/>
+             <apex:outputField value="{!Trip__c.OwnerId}"/>
+             <apex:outputField value="{!Trip__c.LastModifiedById}"/>
+        </apex:pageBlockSection>
+        
+        <apex:pageBlock >
+            <apex:form >
+                <apex:commandButton action="{!edit}" value="Edit trip"  id="theButton"/>
+            </apex:form>
+        </apex:pageBlock>
+        
+         <apex:pageBlockSection columns="1" title="Flight Information.">
+         <apex:pageBlockTable value="{!Trip__c.Flights__r}" var="flight">
+         <apex:column value="{!flight.Name}"/>
+         <apex:column value="{!flight.Status__c}"/>
+           <apex:column value="{!flight.Trip__r.Start_Data__c}"/>
+         </apex:pageBlockTable>
+          </apex:pageBlockSection>
+         
+        <apex:pageBlockSection columns="1" title="Tourist Information.">
+         <apex:pageBlockTable value="{!Trip__c.Flights__r}" var="flight">
+           <apex:column value="{!flight.New_Tourist__r.Name}"/>
+           <apex:column value="{!flight.New_Tourist__r.Tourist_Age__c}"/>
+           <apex:column value="{!flight.New_Tourist__r.Tourist_Email__c}"/>
+         </apex:pageBlockTable>
+          </apex:pageBlockSection>
+         
+        <apex:pageBlockSection columns="1" title="Information about tourists who are not registered for this trip.">
+        <apex:pageBlockTable value="{!tourists}" var="tourist">
+            <apex:column value="{!tourist.Name}"/> 
+            <apex:column value="{!tourist.Upcoming_Flights_Count__c}"/>          
+        </apex:pageBlockTable>
+    </apex:pageBlockSection>
+   
+    </apex:pageBlock>
+</apex:page>
+                   
