@@ -41,6 +41,5 @@ private class TouristServiceTest {
         ];
         
         System.assertEquals(true, touristIsDuplicate.isEmpty());
-        System.assertEquals(0, touristIsDuplicate.size());
     }
 }

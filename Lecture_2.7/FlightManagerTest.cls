@@ -11,7 +11,6 @@ private class FlightManagerTest {
         List<Flight__c> result = FlightManager.getTouristsNotRegistred();
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -28,7 +27,6 @@ private class FlightManagerTest {
         List<Flight__c> result = FlightManager.getStatusTourist(null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -49,6 +47,5 @@ private class FlightManagerTest {
         List<Flight__c> result = FlightManager.getByTouristTripAges(null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }  
 }
