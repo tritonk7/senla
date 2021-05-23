@@ -1,4 +1,4 @@
-<apex:page standardController="Trip__c" extensions="TripInfoControllerExtension" lightningStyleSheets="true">
+<apex:page standardController="Trip__c" extensions="TripControllerExtension" lightningStylesheets="true">
     <apex:pageBlock title="Trip Information">
         
         <apex:pageBlockSection columns="1" title="General Information.">
@@ -10,7 +10,7 @@
         </apex:pageBlockSection>
         
         <apex:pageBlock >
-            <apex:form >
+            <apex:form style="text-align: center" >
                 <apex:commandButton action="{!edit}" value="Edit trip"  id="theButton"/>
             </apex:form>
         </apex:pageBlock>
@@ -40,4 +40,3 @@
    
     </apex:pageBlock>
 </apex:page>
-                   
