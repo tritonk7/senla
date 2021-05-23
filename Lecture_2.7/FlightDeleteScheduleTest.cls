@@ -7,7 +7,7 @@ private class FlightDeleteScheduleTest {
         FlightDeleteSchedule executeBatch = new FlightDeleteSchedule();
         
         Test.startTest();
-        String jobID = System.schedule('Run Flight Delete Process', chr, executeBatch);
+        String jobId = System.schedule('Run Flight Delete Process', chr, executeBatch);
         Test.stopTest();
         
         CronTrigger currentCT = [
@@ -16,7 +16,7 @@ private class FlightDeleteScheduleTest {
             TimesTriggered, 
             NextFireTime
             FROM CronTrigger 
-            WHERE id = :jobId
+            WHERE Id = :jobId
         ];
         
         System.assertEquals(1, [SELECT count() FROM CronTrigger]);
