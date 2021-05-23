@@ -8,7 +8,7 @@ private class TouristManagerTest {
     
     @IsTest
     private static void testGetByNameSOQL() {
-        List<sObject> result = TouristManager.getByNameSOQL(newTourists[0].Name);
+        List<Tourists__c> result = TouristManager.getByNameSOQL(newTourists[0].Name);
         
         System.assertNotEquals(null, result);
         System.assertEquals(1, result.size());
@@ -19,14 +19,14 @@ private class TouristManagerTest {
         List<Tourists__c> result = TouristManager.getByNameSOQL(null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
     private static void testGetByName() {
         Id[] fixedSearchResults = new Id[]{newTourists[0].Id};
-            System.Test.setFixedSearchResults(fixedSearchResults);
-        List<sObject> result = TouristManager.getByName(newTourists[0].Name);
+            Test.setFixedSearchResults(fixedSearchResults);
+            
+        List<Tourists__c> result = TouristManager.getByName(newTourists[0].Name);
         
         System.assertNotEquals(null, result);
         System.assertEquals(newTourists[0].Id, result[0].Id, 'Tourist Ids should match');
@@ -38,11 +38,10 @@ private class TouristManagerTest {
         List<sObject> result = TouristManager.getByName(null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
-    private static void testgetByAges() {
+    private static void testGetByAges() {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         Set<Integer> ages = new Set<Integer>();
         
@@ -57,12 +56,11 @@ private class TouristManagerTest {
     }
     
     @IsTest
-    private static void testgetByAgesIsNegative() {
+    private static void testGetByAgesIsNegative() {
         Set<Integer> ages = new Set<Integer>();
         List<Tourists__c> result = TouristManager.getByAges(ages);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -80,8 +78,7 @@ private class TouristManagerTest {
         Integer year = 20213;
         List<Tourists__c> result = TouristManager.getByFlightDate(year);
         
-        System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());    
+        System.assertEquals(true, result.isEmpty()); 
     }
     
     @IsTest
@@ -116,7 +113,6 @@ private class TouristManagerTest {
         List<Tourists__c> result = TouristManager.getNameEmailDuplicate(name, email);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -147,7 +143,6 @@ private class TouristManagerTest {
         List<Tourists__c> result = TouristManager.getByIds(touristsId);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -171,15 +166,15 @@ private class TouristManagerTest {
         List<Tourists__c> result = TouristManager.getNameById(touristsId);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
     private static void testGetByNameAndAge() {
         Id [] fixedSearchResults = new Id[]{newTourists[0].Id};
             Test.setFixedSearchResults(fixedSearchResults);
+            
         Integer age = 21;
-        List<sObject> result = TouristManager.getByNameAndAge(newTourists[0].Name, age);
+        List<Tourists__c> result = TouristManager.getByNameAndAge(newTourists[0].Name, age);
         
         System.assertNotEquals(null, result);
         System.assertEquals(1, result.size());
@@ -187,10 +182,9 @@ private class TouristManagerTest {
     
     @IsTest
     private static void testGetByNameAndAgeIsNegative() {
-        List<sObject> result = TouristManager.getByNameAndAge(null, null);
+        List<Tourists__c> result = TouristManager.getByNameAndAge(null, null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     }
     
     @IsTest
@@ -206,6 +200,5 @@ private class TouristManagerTest {
         List<Tourists__c> result = TouristManager.getByNameAndEmail(null, null);
         
         System.assertEquals(true, result.isEmpty());
-        System.assertEquals(0, result.size());
     } 
 }
