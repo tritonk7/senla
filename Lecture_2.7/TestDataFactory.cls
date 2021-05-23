@@ -31,6 +31,7 @@ public class TestDataFactory {
                 new Tourists__c(Name = 'Test3', Tourist_Email__c = 'test3@gmail.com', Birthday__c = Date.newInstance(2000, 02, 02), IsDuplicate__c = true)
                 };  
                     insert newTourists;
+        
         return newTourists;
     }
     
@@ -40,6 +41,7 @@ public class TestDataFactory {
                 new Trip__c(Name = 'Minsk', Mininmum_Age__c = 10, Start_Data__c = Date.newInstance(2022, 08, 05))
                 };
                     insert newTrips;
+        
         return newTrips;
     }
     
@@ -51,15 +53,17 @@ public class TestDataFactory {
                 new Flight__c(New_Tourist__c = newTourists[1].Id, Trip__c = newTrips[1].Id, Status__c = 'Accepted')   
                 };
                     insert newFlights;
+        
         return newFlights;
     }  
     
     public static List<Space_Point__c> createSpacePoints() {
         List<Space_Point__c> newSpacePoints = new List<Space_Point__c> {
-            new Space_Point__c(Name = 'Russian Place', Country__c = 'Russia', City__c = 'Moscow', Latitude__c = 55, Longitude__c = 40),
+            new Space_Point__c(Name = 'Belarus Place', Country__c = 'Belarus', City__c = 'Gomel', Latitude__c = 52.43, Longitude__c = 30.97),
                 new Space_Point__c(Name = 'Russian Place', Country__c = 'Russia', City__c = 'Unknown', Latitude__c = null, Longitude__c = null)              
                 };
                     insert newSpacePoints;
+        
         return newSpacePoints;
     }
     
@@ -70,6 +74,7 @@ public class TestDataFactory {
                 new Weather_Daily_Forecast__c(Space_Point__c = null, Date__c = Date.newInstance(2022, 06, 02))    
                 };
                     insert newWeather;
+        
         return newWeather;
     }
     
@@ -77,8 +82,10 @@ public class TestDataFactory {
         List<Tourists__c> tourists = createTourists();
         Tourists__c newTourist = new Tourists__c(Name = tourists[0].Name, Birthday__c = birthday);
         insert newTourist;
+        
         Trip__c newTrip = new Trip__c(Mininmum_Age__c = minAge, Start_Data__c = startDate);
         insert newTrip;
+        
         Flight__c newFlight = new Flight__c (New_Tourist__c = newTourist.Id, Trip__c = newTrip.Id);
                     return newFlight;
     }
