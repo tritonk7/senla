@@ -1,4 +1,4 @@
-<apex:page standardController="Trip__c" extensions="TripControllerExtension" lightningStylesheets="true">
+<apex:page standardController="Trip__c" extensions="TripInfoControllerExtension" lightningStylesheets="true">
     <apex:pageBlock title="Trip Information">
         
         <apex:pageBlockSection columns="1" title="General Information.">
