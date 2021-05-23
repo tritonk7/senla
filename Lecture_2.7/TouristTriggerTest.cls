@@ -11,7 +11,7 @@ private class TouristTriggerTest {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         
         Test.startTest(); 
-        Database.SaveResult[] result = Database.insert(tourists, false);
+        Database.insert(tourists, false);
         Test.stopTest();
         
         List<Tourists__c> touristIsDuplicate = [
@@ -31,7 +31,7 @@ private class TouristTriggerTest {
         List<Tourists__c> tourists = TestDataFactory.getTourists();
         
         Test.startTest();
-        Database.SaveResult[] result = Database.update(tourists, false);
+        Database.update(tourists, false);
         Test.stopTest();
         
         List<Flight__c> flights = TestDataFactory.getFlights();
