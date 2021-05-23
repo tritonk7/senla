@@ -2,6 +2,17 @@
 private class TouristRestServiceTest {
     private static List<Tourists__c> newTourists;
     
+    @TestVisible
+    private static final String REQUEST_PARAMS_FUZZYNAME = 'fuzzyname';
+    private static final String REQUEST_PARAMS_AGE = 'age';
+    private static final String REQUEST_URL = '/services/apexrest/Tourist/';
+    private static final String TOURIST_AGE_IS_NOT_NUMERIC = 'one';
+    private static final String TOURIST_NAME = 'John';
+    private static final String TOURIST_EMAIL = 'john@gmail.com';
+    private static final String TOURIST_BIRTHDAY = '2021-05-03';
+    private static final String HTTP_METHOD_POST = 'post';
+    private static final String TOURIST_AGE = '21';
+    
     static {
         newTourists = TestDataFactory.createTourists();
     }
@@ -9,19 +20,23 @@ private class TouristRestServiceTest {
     @IsTest
     private static void testGetTourist() {
         String name = newTourists[0].Name; 
-        String age = '21';
+        String age = TOURIST_AGE;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
+        RestContext.request.requestURI = REQUEST_URL;
         RestContext.request.httpMethod = Constants.HTTP_METHOD_GET;
-        RestContext.request.addParameter('fuzzyname' , name);
-        RestContext.request.addParameter('age' , age);
+        RestContext.request.addParameter(REQUEST_PARAMS_FUZZYNAME, name);
+        RestContext.request.addParameter(REQUEST_PARAMS_AGE, age);
+        
+        Id[] fixedSearchResults = new Id[]{newTourists[0].Id};
+            Test.setFixedSearchResults(fixedSearchResults);
         
         Test.startTest();
         TouristRestService.getTourist();
         Test.stopTest();
         
         System.assertNotEquals(null, RestContext.response.responseBody);
+        System.assertEquals(true, RestContext.response.responseBody.tostring().contains(newTourists[0].Name));
         System.assertEquals(Constants.RESPONSE_STATUS_CODE_200, RestContext.response.statusCode);
     }
     
@@ -31,29 +46,33 @@ private class TouristRestServiceTest {
         String age;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
+        RestContext.request.requestURI = REQUEST_URL;
         RestContext.request.httpMethod = Constants.HTTP_METHOD_GET;
-        RestContext.request.addParameter('fuzzyname' , name);
-        RestContext.request.addParameter('age' , age);
+        RestContext.request.addParameter(REQUEST_PARAMS_FUZZYNAME, name);
+        RestContext.request.addParameter(REQUEST_PARAMS_AGE, age);
+        
+        Id[] fixedSearchResults = new Id[]{newTourists[0].Id};
+            Test.setFixedSearchResults(fixedSearchResults);
         
         Test.startTest();
         TouristRestService.getTourist();
         Test.stopTest();
         
         System.assertNotEquals(null, RestContext.response.responseBody);
+        System.assertEquals(true, RestContext.response.responseBody.tostring().contains(newTourists[0].Name));
         System.assertEquals(Constants.RESPONSE_STATUS_CODE_200, RestContext.response.statusCode);
     }
     
     @IsTest
     private static void testGetTouristParametrNameIsBlank() {
         String name; 
-        String age = '21';
+        String age = TOURIST_AGE;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
+        RestContext.request.requestURI = REQUEST_URL;
         RestContext.request.httpMethod = Constants.HTTP_METHOD_GET;
-        RestContext.request.addParameter('fuzzyname' , name);
-        RestContext.request.addParameter('age' , age);
+        RestContext.request.addParameter(REQUEST_PARAMS_FUZZYNAME, name);
+        RestContext.request.addParameter(REQUEST_PARAMS_AGE, age);
         
         Test.startTest();
         TouristRestService.getTourist();
@@ -66,13 +85,13 @@ private class TouristRestServiceTest {
     @IsTest
     private static void testGetTouristParametrAgeIsNotNumeric() {
         String name = newTourists[0].Name;  
-        String age = 'one';
+        String age = TOURIST_AGE_IS_NOT_NUMERIC;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
+        RestContext.request.requestURI = REQUEST_URL;
         RestContext.request.httpMethod = Constants.HTTP_METHOD_GET;
-        RestContext.request.addParameter('fuzzyname' , name);
-        RestContext.request.addParameter('age' , age);
+        RestContext.request.addParameter(REQUEST_PARAMS_FUZZYNAME, name);
+        RestContext.request.addParameter(REQUEST_PARAMS_AGE, age);
         
         Test.startTest();
         TouristRestService.getTourist();
@@ -84,13 +103,13 @@ private class TouristRestServiceTest {
     
     @IsTest
     private static void testCreateTouristGetError() {
-        String name =  newTourists[0].Name;
-        String birthday = '2021-05-03';
+        String name = newTourists[0].Name;
+        String birthday = TOURIST_BIRTHDAY;
         String email = newTourists[0].Tourist_Email__c;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
-        RestContext.request.httpMethod = 'POST';
+        RestContext.request.requestURI = REQUEST_URL;
+        RestContext.request.httpMethod = HTTP_METHOD_POST;
         
         Test.startTest();
         TouristRestService.createTourist(name, birthday, email);
@@ -102,13 +121,13 @@ private class TouristRestServiceTest {
     
     @IsTest
     private static void testCreateTouristGetStatusOk() {
-        String name =  'John';
-        String birthday = '2021-05-03';
-        String email = 'john@gmail.com';
+        String name = TOURIST_NAME;
+        String birthday = TOURIST_BIRTHDAY;
+        String email = TOURIST_EMAIL;
         RestContext.request = new RestRequest();
         RestContext.response = new RestResponse();
-        RestContext.request.requestURI = '/services/apexrest/Tourist/';
-        RestContext.request.httpMethod = 'POST';
+        RestContext.request.requestURI = REQUEST_URL;
+        RestContext.request.httpMethod = HTTP_METHOD_POST;
         
         Test.startTest();
         TouristRestService.createTourist(name, birthday, email);
