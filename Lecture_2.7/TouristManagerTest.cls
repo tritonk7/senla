@@ -35,7 +35,7 @@ private class TouristManagerTest {
     
     @IsTest
     private static void testGetByNameIsNegative() {
-        List<sObject> result = TouristManager.getByName(null);
+        List<Tourists__c> result = TouristManager.getByName(null);
         
         System.assertEquals(true, result.isEmpty());
     }

@@ -16,7 +16,7 @@ public class TouristManager {
         if (String.isBlank(fuzzyName)) {
             return new List<Tourists__c>();
         }
-        List<List<sObject>> result = [
+        List<List<Tourists__c>> result = [
             FIND :fuzzyName IN Name FIELDS RETURNING Tourists__c(
                 Id,
                 Name, 
@@ -29,7 +29,7 @@ public class TouristManager {
     
     public static List<Tourists__c> getByAges(Set <Integer> ages) {
         List<Integer> correctAges = new List<Integer>();
-        if (ages.IsEmpty() || ages == null || ages.contains(null)) {
+        if (ages.isEmpty() || ages == null || ages.contains(null)) {
             return new List<Tourists__c>();
         }
         
@@ -124,7 +124,7 @@ public class TouristManager {
         if (String.isBlank(fuzzyName) || age == null) {
             return new List<Tourists__c>();
         }
-        List<List<sObject>> result = [
+        List<List<Tourists__c>> result = [
             FIND :fuzzyName IN Name FIELDS RETURNING Tourists__c(
                 Id,
                 Name, 
@@ -146,6 +146,24 @@ public class TouristManager {
             FROM Tourists__c
             WHERE Name = :name 
             AND Tourist_Email__c = :email
+        ];
+    }
+    
+    public static List<Tourists__c> getWithoutCurrentTrip(Id trip) {
+        if (trip == null) {
+            return new List<Tourists__c>();
+        }
+        return [
+            SELECT Name, 
+            Upcoming_Flights_Count__c
+            FROM Tourists__c
+            WHERE Id NOT IN (
+                SELECT New_Tourist__c 
+                FROM Flight__c 
+                WHERE Trip__c = :trip
+            )
+            ORDER BY Upcoming_Flights_Count__c ASC 
+            LIMIT 10
         ];
     }
 }
