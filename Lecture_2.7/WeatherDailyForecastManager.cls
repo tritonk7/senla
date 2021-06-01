@@ -2,9 +2,10 @@ public class WeatherDailyForecastManager {
     
     public static List<Weather_Daily_Forecast__c> getSpacePoints() {
         return  [
-            SELECT Space_Point__r.Id 
+            SELECT Id,
+            Space_Point__c 
             FROM Weather_Daily_Forecast__c 
-            WHERE Space_Point__r.Id != NULL
+            WHERE Space_Point__c != null
         ];
     }
 }
