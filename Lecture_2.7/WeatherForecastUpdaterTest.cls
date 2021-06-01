@@ -9,27 +9,27 @@ private class WeatherForecastUpdaterTest {
     @IsTest
     private static void testUpdateForecastsIsSuccess() {
         Test.setMock(HttpCalloutMock.class, new WeatherGlobalHttpMockIsSuccess());
-        List<Weather_Daily_Forecast__c> weatherFromDB = WeatherDailyForecastManager.getSpacePoints();
+        List<Weather_Daily_Forecast__c> oldWeatherForecasts = WeatherDailyForecastManager.getSpacePoints();
         
-        System.assertEquals(newWeather[0].Id, weatherFromDB[0].Id);
+        System.assertEquals(newWeather[0].Id, oldWeatherForecasts[0].Id);
         
         Test.startTest();
         WeatherForecastUpdater.updateForecasts();
         Test.stopTest();
         
-        List<Weather_Daily_Forecast__c> checkOldWeather = [
-            SELECT Space_Point__r.Id 
+        List<Weather_Daily_Forecast__c> checkOldWeatherForecasts = [
+            SELECT Id 
             FROM Weather_Daily_Forecast__c 
-            WHERE Space_Point__r.Id = :weatherFromDB[0].Id
+            WHERE Id = :oldWeatherForecasts[0].Id        
         ];
         
-        System.assertEquals(true, checkOldWeather.isEmpty());
+        System.assertEquals(true, checkOldWeatherForecasts.isEmpty());
         
-        List<Weather_Daily_Forecast__c> result = WeatherDailyForecastManager.getSpacePoints();
+        List<Weather_Daily_Forecast__c> newWeatherForecasts = WeatherDailyForecastManager.getSpacePoints();
         
-        System.assertNotEquals(null, result);
-        System.assertEquals(1, result.size());
-        System.assertNotEquals(newWeather[0].Id, result[0].id);
+        System.assertNotEquals(null, newWeatherForecasts);
+        System.assertEquals(1, newWeatherForecasts.size());
+        System.assertNotEquals(newWeatherForecasts[0].Id, oldWeatherForecasts[0].id);
     }
     
     @IsTest
