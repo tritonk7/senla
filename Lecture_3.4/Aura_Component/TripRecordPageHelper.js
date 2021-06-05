@@ -20,7 +20,7 @@
     
     fetchFlights : function(component, event) {
        
-        var records = component.get("v.selectedAccts");
+        var records = component.get("v.selectedTourists");
         var ids = new Array();
         
         for ( var i = 0; i < records.length; i++ ) {

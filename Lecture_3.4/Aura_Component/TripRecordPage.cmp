@@ -4,7 +4,7 @@
     <aura:attribute name="data" type="Object"/>
     <aura:attribute name="selectedRows" type="List"/>
     <aura:attribute name="columns" type="List"/>
-    <aura:attribute name="selectedAccts" type="List" />
+    <aura:attribute name="selectedTourists" type="List" />
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     

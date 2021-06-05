@@ -18,7 +18,7 @@
         for ( var i = 0; i < selectedRows.length; i++ ) {
             setRows.push(selectedRows[i]);
         }
-        component.set("v.selectedAccts", setRows);
+        component.set("v.selectedTourists", setRows);
         
     },
     
