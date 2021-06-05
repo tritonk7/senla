@@ -10,11 +10,11 @@
     
     <div>
         <lightning:datatable
-                             aura:Id="tourist"
                              keyField="id"
                              data="{!v.data}"
                              onrowselection="{!c.handleSelect}"
-                             columns="{!v.columns}"/>
+                             columns="{!v.columns}" />
+                            
     </div>
     
     <lightning:button variant="brand" label="Add To Trip" onclick="{! c.createFlight }" />
