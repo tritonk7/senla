@@ -45,4 +45,18 @@ public class FlightManager {
             FROM Flight__c
         ];
     }
+    
+    public static List<Flight__c> getByTripId(String tripId) {
+        if(String.isBlank(tripId)) {
+            return new List<Flight__c>();
+        }
+        return [
+            SELECT New_Tourist__c,
+            New_Tourist__r.Tourist_Age__c,
+            Trip__r.Start_Data__c,
+            Trip__r.End_Date__c
+            FROM Flight__c
+            WHERE Trip__c = :tripId
+        ];
+    }
 }
