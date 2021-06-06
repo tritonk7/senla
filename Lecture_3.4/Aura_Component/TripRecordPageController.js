@@ -10,16 +10,6 @@
     },
     
     createFlight: function(component, event, helper) {
-        var toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-            title : 'Success Toast Message',
-            message: 'Selected Tourists will be assigned to the Trip.',
-            duration:' 4000',
-            key: 'info_alt',
-            type: 'success',
-            mode: 'pester'
-        });
-        toastEvent.fire();
         helper.fetchFlights(component, event);
     },
     
