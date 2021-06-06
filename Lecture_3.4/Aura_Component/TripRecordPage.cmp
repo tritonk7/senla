@@ -7,7 +7,7 @@
     <aura:attribute name="selectedTourists" type="List" />
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
+  
     <div>
         <lightning:datatable
                              keyField="id"
@@ -29,5 +29,4 @@
             <lightning:spinner alternativeText="Loading, Please Wait..." title="Loading, Please Wait..." variant="brand" size="large"/>
         </aura:if>
     </div>
-    
 </aura:component>

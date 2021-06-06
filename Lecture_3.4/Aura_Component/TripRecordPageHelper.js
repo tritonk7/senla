@@ -21,7 +21,7 @@
         var records = component.get("v.selectedTourists");
         var ids = new Array();
         
-        for ( var i = 0; i < records.length; i++ ) {
+        for (var i = 0; i < records.length; i++) {
             ids.push(records[i].Id);
         } 
         var action = component.get("c.saveFlight");
@@ -35,7 +35,6 @@
                 if (result.length > 0) {
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
-            
             message: 'Selected Tourists will be assigned to the Trip.',
             duration:' 4000',
             key: 'info_alt',
@@ -46,7 +45,6 @@
                 } else {
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
-            
             message: 'There are not enough places for the selected number of tourists or the trip has already started.',
             duration:' 4000',
             key: 'info_alt',
