@@ -1,6 +1,6 @@
 ({
-    doInit: function (component, event, helper) {
-        component.set('v.columns', [
+    doInit : function (component, event, helper) {
+        component.set("v.columns", [
             {label: 'Tourist Name', fieldName: 'linkName', type: 'url', 
              typeAttributes: { label: { fieldName: 'Name' }, target: '_self', tooltip: {fieldName: 'Name' }}},
             {label: 'Email', fieldName: 'Tourist_Email__c', type: 'email'},
@@ -9,14 +9,14 @@
         helper.fetchTourists (component, event);   
     },
     
-    createFlight: function(component, event, helper) {
+    createFlight : function(component, event, helper) {
         helper.fetchFlights(component, event);
     },
     
     handleSelect : function(component, event, helper) {
         var selectedRows = event.getParam('selectedRows'); 
         var setRows = [];
-        for ( var i = 0; i < selectedRows.length; i++ ) {
+        for (var i = 0; i < selectedRows.length; i++) {
             setRows.push(selectedRows[i]);
         }
         component.set("v.selectedTourists", setRows);
@@ -26,7 +26,7 @@
         component.set("v.showSpinner", true); 
     },
     
-    handleHideSpinner : function(component,event,helper){
+    handleHideSpinner : function(component, event, helper){
         component.set("v.showSpinner", false);
     }
 })
