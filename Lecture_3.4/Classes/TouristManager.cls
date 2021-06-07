@@ -168,9 +168,6 @@ public class TouristManager {
     }
     
     public static List<Tourists__c> getByNotMatchId(List<String> touristsId, Decimal tripAge) {
-        if (touristsId.isEmpty() || tripAge == null) {
-            return new List<Tourists__c>();
-        }
         return [
             SELECT Id,
             Name,
@@ -178,9 +175,9 @@ public class TouristManager {
             Tourist_Email__c,
             Gender__c
             FROM Tourists__c
-            WHERE Id != :touristsId
+            WHERE Active__c = TRUE
+            AND Id NOT IN :touristsId
             AND Tourist_Age__c >= :tripAge
-            AND Active__c = TRUE
         ];
     }
     

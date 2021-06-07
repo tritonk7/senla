@@ -1,4 +1,4 @@
-public  with sharing class TripRecordPageController {
+public with sharing class TripRecordPageController {
     
     @AuraEnabled
     public static List<Tourists__c> fetchTourist(String tripId) {
@@ -12,6 +12,7 @@ public  with sharing class TripRecordPageController {
                 touristsId.add(value.New_Tourist__c);
             }
         }
+        
         List<Tourists__c> tourists = TouristManager.getByNotMatchId(touristsId,trip.Mininmum_Age__c);
         
         return tourists;
@@ -40,5 +41,22 @@ public  with sharing class TripRecordPageController {
         insert flights;
         
         return flights;
+    }
+    
+    @AuraEnabled 
+    public static Decimal getSeats (String tripId) {
+        Trip__c trip = TripManager.tripById(tripId);
+        List<Flight__c> checkflights = FlightManager.getByTripId(tripId);
+        Decimal freeSeats = trip.Seats__c - checkflights.size();
+        
+        return freeSeats;
+    }
+    
+    @AuraEnabled 
+    public static Date getStartDate (String tripId) {
+        Trip__c trip = TripManager.tripById(tripId);
+        Date StartDate = trip.Start_Data__c;
+        
+        return StartDate;
     }
 }
