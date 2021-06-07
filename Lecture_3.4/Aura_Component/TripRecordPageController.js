@@ -8,7 +8,7 @@
         ]);
         helper.fetchTourists (component, event);
         helper.fetchSeats (component, event);
-        helper.fetchStartData (component, event);
+        helper.fetchStartDate (component, event);
         
         var today = $A.localizationService.formatDate(new Date(), "YYYY-MM-DD");
         component.set("v.setToday", today);

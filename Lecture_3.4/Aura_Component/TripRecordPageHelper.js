@@ -72,7 +72,7 @@
         $A.enqueueAction(freeSeats); 
     },
     
-    fetchStartData : function(component, event) {
+    fetchStartDate : function(component, event) {
         var freeSeats = component.get("c.getStartDate");
         freeSeats.setParams({
             tripId : component.get("v.recordId")
