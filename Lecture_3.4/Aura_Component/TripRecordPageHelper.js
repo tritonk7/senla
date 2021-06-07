@@ -35,7 +35,7 @@
                 if (result.length > 0) {
                     var toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
-                        message: 'Selected Tourists will be assigned to the Trip.',
+                        message: $A.get("$Label.c.Added_Tourists"),
                         duration:' 4000',
                         key: 'info_alt',
                         type: 'success',
@@ -45,7 +45,7 @@
                 } else {
                     var toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
-                        message: 'There are not enough places for the selected number of tourists or the trip has already started.',
+                        message: $A.get("$Label.c.Error_Trip"),
                         duration:' 4000',
                         key: 'info_alt',
                         type: 'error',
