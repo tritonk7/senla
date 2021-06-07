@@ -1,13 +1,18 @@
-<aura:component controller="TripRecordPageController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">
+<aura:component controller="TripRecordPageController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
     
     <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="data" type="Object"/>
     <aura:attribute name="selectedRows" type="List"/>
     <aura:attribute name="columns" type="List"/>
     <aura:attribute name="selectedTourists" type="List" />
-    
+    <aura:attribute name="setSeats" type="Decimal" />
+    <aura:attribute name="setStartDate" type="Date" />
+    <aura:attribute name="setToday" type="Date" />
+    Free seats: <ui:outputText value="{!v.setSeats}"/>
+    Trip Start Date: <ui:outputText value="{!v.setStartDate}"/>
+    Today: <ui:outputText value="{!v.setToday}"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-  
+    
     <div>
         <lightning:datatable
                              keyField="id"
@@ -16,8 +21,7 @@
                              columns="{!v.columns}" />
                             
     </div>
-    
-    <lightning:button variant="brand" label="Add To Trip" onclick="{! c.createFlight }" />
+    <lightning:button name="Add to trip" variant="brand" label="Add To Trip" onclick="{!c.handleConfirmDialog}"/>
     
     <aura:handler event="aura:waiting" action="{!c.handleShowSpinner}"/>
     <aura:handler event="aura:doneWaiting" action="{!c.handleHideSpinner}"/>
@@ -29,4 +33,29 @@
             <lightning:spinner alternativeText="Loading, Please Wait..." title="Loading, Please Wait..." variant="brand" size="large"/>
         </aura:if>
     </div>
+    
+    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    
+    <div>    
+        <aura:if isTrue="{!v.showConfirmDialog}">
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">Confirmation</h1>
+                    </header>
+                 
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <center><b>{!$Label.c.TouristBeAdd}</b></center>
+                    </div>
+                    
+                    <footer class="slds-modal__footer">
+                        <lightning:button name='No' label='No' onclick='{!c.handleConfirmDialogNo}'/>
+                        <lightning:button variant="brand" name='Yes' label='Yes' onclick='{!c.handleConfirmDialogYes}'/>
+                    </footer>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>            
+        </aura:if>
+    </div>
+   
 </aura:component>

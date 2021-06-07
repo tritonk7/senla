@@ -37,7 +37,6 @@
                     toastEvent.setParams({
                         message: $A.get("$Label.c.Added_Tourists"),
                         duration:' 4000',
-                        key: 'info_alt',
                         type: 'success',
                         mode: 'pester'
                     });
@@ -56,5 +55,35 @@
             }
         });
         $A.enqueueAction(action);
-    }  
+    },
+    
+    fetchSeats : function(component, event) {
+        var freeSeats = component.get("c.getSeats");
+        freeSeats.setParams({
+            tripId : component.get("v.recordId")
+        });
+        freeSeats.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var result = response.getReturnValue();
+                component.set("v.setSeats", result);
+            }
+        });
+        $A.enqueueAction(freeSeats); 
+    },
+    
+    fetchStartData : function(component, event) {
+        var freeSeats = component.get("c.getStartDate");
+        freeSeats.setParams({
+            tripId : component.get("v.recordId")
+        });
+        freeSeats.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var result = response.getReturnValue();
+                component.set("v.setStartDate", result);
+            }
+        });
+        $A.enqueueAction(freeSeats); 
+    }
 })
