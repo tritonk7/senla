@@ -15,12 +15,7 @@
     },
     
     onChange : function(component, event, helper) {
-        let seats = component.get("v.setSeats");
-        if (seats == 0) {
-            component.set("v.isVisibleButton",false);
-        } else {
-            component.set("v.isVisibleButton",true);
-        }
+        helper.fetchVisibleButton(component, event);
     },
     
     handleSelect : function(component, event, helper) {

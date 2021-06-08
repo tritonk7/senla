@@ -41,16 +41,6 @@
                         mode: 'pester'
                     });
                     toastEvent.fire();
-                } else {
-                    let toastEvent = $A.get("e.force:showToast");
-                    toastEvent.setParams({
-                        message: $A.get("$Label.c.Error_Trip"),
-                        duration:' 4000',
-                        key: 'info_alt',
-                        type: 'error',
-                        mode: 'pester'
-                    });
-                    toastEvent.fire();
                 }
             }
         });
@@ -67,32 +57,18 @@
         for (let i = 0; i < selectedRows.length; i++) {
             setRow.push(selectedRows[i]);
         } 
-        
-        if (setRow.length > seats || startDate <= today) {
-            if (setRow.length > seats) {
-                let toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                    message: $A.get("$Label.c.NotEnoughtlSeats"),
-                    duration:' 4000',
-                    type: 'error',
-                    mode: 'pester'
-                });
-                toastEvent.fire(); 
-            }
-            if (startDate <= today) {
-                let toastEvent = $A.get("e.force:showToast");
-                toastEvent.setParams({
-                    message:  $A.get("$Label.c.TripAlreadyBegun"),
-                    duration:' 4000',
-                    type: 'error',
-                    mode: 'pester'
-                });
-                toastEvent.fire(); 
-            } 
-        } else 
-            if (seats >= setRow.length && startDate >= today && seats > 0) {
-                component.set("v.showConfirmDialog", true);  
-            }  
+        if (setRow.length > seats) {
+            let toastEvent = $A.get("e.force:showToast");
+            toastEvent.setParams({
+                message: $A.get("$Label.c.NotEnoughtlSeats"),
+                duration:' 4000',
+                type: 'error',
+                mode: 'pester'
+            });
+            toastEvent.fire(); 
+        } else {
+            component.set("v.showConfirmDialog", true);  
+        } 
     },
     
     fetchSeats : function(component, event) {
@@ -107,7 +83,7 @@
                 component.set("v.setSeats", result);
             }
         });
-        $A.enqueueAction(freeSeats); 
+        $A.enqueueAction(freeSeats);
     },
     
     fetchStartDate : function(component, event) {
@@ -133,5 +109,16 @@
             setRows.push(selectedRows[i]);
         }
         component.set("v.selectedTourists", setRows);
+    },
+    
+    fetchVisibleButton : function (component, event) {
+        let seats = component.get("v.setSeats");
+        let today = component.get("v.setToday");
+        let startDate = component.get("v.setStartDate");
+        if (seats <= 0 || startDate < today) {
+            component.set("v.isVisibleButton",false);
+        } else {
+            component.set("v.isVisibleButton",true);
+        }
     }
 })
