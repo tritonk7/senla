@@ -14,6 +14,15 @@
         component.set("v.setToday", today);
     },
     
+    onChange : function(component, event, helper) {
+        let seats = component.get("v.setSeats");
+        if (seats == 0) {
+            component.set("v.isVisibleButton",false);
+        } else {
+            component.set("v.isVisibleButton",true);
+        }
+    },
+    
     handleSelect : function(component, event, helper) {
         helper.fetchSelectedRows(component, event);
     },

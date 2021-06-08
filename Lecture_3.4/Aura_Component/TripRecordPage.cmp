@@ -10,8 +10,11 @@
     <aura:attribute name="setToday" type="Date" />
     <aura:attribute name="showSpinner" type="boolean" default="false"/>
     <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    <aura:attribute name="isVisibleButton" type="boolean" default="true"/>
+    
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.setSeats}" action="{!c.onChange}"/>
     <aura:handler event="aura:waiting" action="{!c.handleShowSpinner}"/>
     <aura:handler event="aura:doneWaiting" action="{!c.handleHideSpinner}"/>
     
@@ -30,7 +33,9 @@
         </div>
         
         <div class="slds-border_top slds-box">
-            <lightning:button name="Add to trip" variant="brand" label="Add To Trip" onclick="{!c.handleConfirmDialog}"/>
+            <aura:if isTrue="{!v.isVisibleButton}">
+                <lightning:button name="Add to trip" variant="brand" label="Add To Trip" onclick="{!c.handleConfirmDialog}"/>
+            </aura:if>
         </div>
         <div class="slds-m-around--xx-large">
             <aura:if isTrue="{!v.showSpinner}">
