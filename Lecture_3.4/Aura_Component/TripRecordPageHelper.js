@@ -1,13 +1,13 @@
 ({
     fetchTourists : function(component, event) {
-        var action = component.get("c.fetchTourist");
+        let action = component.get("c.fetchTourist");
         action.setParams({
             tripId : component.get("v.recordId")
         });
         action.setCallback(this, function(response) {
-            var state = response.getState();
+            let state = response.getState();
             if (state === "SUCCESS") {
-                var records = response.getReturnValue();
+                let records = response.getReturnValue();
                 records.forEach(function(record) {
                     record.linkName = '/' + record.Id;
                 });
@@ -18,22 +18,22 @@
     },
     
     fetchFlights : function(component, event) {
-        var records = component.get("v.selectedTourists");
-        var ids = [];
+        let records = component.get("v.selectedTourists");
+        let ids = [];
         
-        for (var i = 0; i < records.length; i++) {
+        for (let i = 0; i < records.length; i++) {
             ids.push(records[i].Id);
         } 
-        var action = component.get("c.saveFlight");
+        let action = component.get("c.saveFlight");
         action.setParams({tripId : component.get("v.recordId"),
                           touristIds : ids
                          });
         action.setCallback(this, function(response) {
-            var state = response.getState();
+            let state = response.getState();
             if (state === "SUCCESS") {
-                var result = response.getReturnValue();
+                let result = response.getReturnValue();
                 if (result.length > 0) {
-                    var toastEvent = $A.get("e.force:showToast");
+                    let toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
                         message: $A.get("$Label.c.Added_Tourists"),
                         duration:' 4000',
@@ -42,7 +42,7 @@
                     });
                     toastEvent.fire();
                 } else {
-                    var toastEvent = $A.get("e.force:showToast");
+                    let toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
                         message: $A.get("$Label.c.Error_Trip"),
                         duration:' 4000',
@@ -57,15 +57,53 @@
         $A.enqueueAction(action);
     },
     
+    fetchValidation : function(component, event) {
+        let selectedRows = component.get("v.selectedTourists");
+        let seats = component.get("v.setSeats");
+        let setRow = [];
+        let startDate = component.get("v.setStartDate");
+        let today = component.get("v.setToday");
+        
+        for (let i = 0; i < selectedRows.length; i++) {
+            setRow.push(selectedRows[i]);
+        } 
+        
+        if (setRow.length > seats || startDate <= today) {
+            if (setRow.length > seats) {
+                let toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    message: $A.get("$Label.c.NotEnoughtlSeats"),
+                    duration:' 4000',
+                    type: 'error',
+                    mode: 'pester'
+                });
+                toastEvent.fire(); 
+            }
+            if (startDate <= today) {
+                let toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    message:  $A.get("$Label.c.TripAlreadyBegun"),
+                    duration:' 4000',
+                    type: 'error',
+                    mode: 'pester'
+                });
+                toastEvent.fire(); 
+            } 
+        } else 
+            if (seats >= setRow.length && startDate >= today && seats > 0) {
+                component.set("v.showConfirmDialog", true);  
+            }  
+    },
+    
     fetchSeats : function(component, event) {
-        var freeSeats = component.get("c.getSeats");
+        let freeSeats = component.get("c.getSeats");
         freeSeats.setParams({
             tripId : component.get("v.recordId")
         });
         freeSeats.setCallback(this, function(response) {
-            var state = response.getState();
+            let state = response.getState();
             if (state === "SUCCESS") {
-                var result = response.getReturnValue();
+                let result = response.getReturnValue();
                 component.set("v.setSeats", result);
             }
         });
@@ -73,17 +111,27 @@
     },
     
     fetchStartDate : function(component, event) {
-        var freeSeats = component.get("c.getStartDate");
+        let freeSeats = component.get("c.getStartDate");
         freeSeats.setParams({
             tripId : component.get("v.recordId")
         });
         freeSeats.setCallback(this, function(response) {
-            var state = response.getState();
+            let state = response.getState();
             if (state === "SUCCESS") {
-                var result = response.getReturnValue();
+                let result = response.getReturnValue();
                 component.set("v.setStartDate", result);
             }
         });
         $A.enqueueAction(freeSeats); 
+    },
+    
+    fetchSelectedRows : function (component, event) {
+        let selectedRows = event.getParam("selectedRows"); 
+        let setRows = [];
+        
+        for (let i = 0; i < selectedRows.length; i++) {
+            setRows.push(selectedRows[i]);
+        }
+        component.set("v.selectedTourists", setRows);
     }
 })
