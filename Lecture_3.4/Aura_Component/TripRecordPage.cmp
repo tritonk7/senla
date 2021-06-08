@@ -8,42 +8,42 @@
     <aura:attribute name="setSeats" type="Decimal" />
     <aura:attribute name="setStartDate" type="Date" />
     <aura:attribute name="setToday" type="Date" />
-    Free seats: <ui:outputText value="{!v.setSeats}"/>
-    Trip Start Date: <ui:outputText value="{!v.setStartDate}"/>
-    Today: <ui:outputText value="{!v.setToday}"/>
+    <aura:attribute name="showSpinner" type="boolean" default="false"/>
+    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
-    <div>
-        <lightning:datatable
-                             keyField="id"
-                             data="{!v.data}"
-                             onrowselection="{!c.handleSelect}"
-                             columns="{!v.columns}" />
-                            
-    </div>
-    <lightning:button name="Add to trip" variant="brand" label="Add To Trip" onclick="{!c.handleConfirmDialog}"/>
-    
     <aura:handler event="aura:waiting" action="{!c.handleShowSpinner}"/>
     <aura:handler event="aura:doneWaiting" action="{!c.handleHideSpinner}"/>
     
-    <aura:attribute name="showSpinner" type="boolean" default="false"/>
-    
-    <div class="slds-m-around--xx-large">
-        <aura:if isTrue="{!v.showSpinner}">
-            <lightning:spinner alternativeText="Loading, Please Wait..." title="Loading, Please Wait..." variant="brand" size="large"/>
-        </aura:if>
-    </div>
-    
-    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
-    
-    <div>    
+    <lightning:card iconName="standard:account" title="Suitable tourists for this trip">
+        <div class="slds-box">
+            <p> <b>Free seats: </b> <ui:outputText value="{!v.setSeats}" /></p>
+            <p><b>Trip Start Date: </b> <ui:outputText value="{!v.setStartDate}"/></p>
+            <p><b>Today Date: </b> <ui:outputText value="{!v.setToday}"/></p>
+        </div>
+        <div style="height: 300px">
+            <lightning:datatable
+                                 keyField="id"
+                                 data="{!v.data}"
+                                 onrowselection="{!c.handleSelect}"
+                                 columns="{!v.columns}" />
+        </div>
+        
+        <div class="slds-border_top slds-box">
+            <lightning:button name="Add to trip" variant="brand" label="Add To Trip" onclick="{!c.handleConfirmDialog}"/>
+        </div>
+        <div class="slds-m-around--xx-large">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner variant="brand" size="large"/>
+            </aura:if>
+        </div>
+        
         <aura:if isTrue="{!v.showConfirmDialog}">
             <div role="dialog" class="slds-modal slds-fade-in-open ">
                 <div class="slds-modal__container">
                     <header class="slds-modal__header">
                         <h1 class="slds-text-heading--medium">Confirmation</h1>
                     </header>
-                 
                     <div class="slds-modal__content slds-p-around--medium">
                         <center><b>{!$Label.c.TouristBeAdd}</b></center>
                     </div>
@@ -56,6 +56,6 @@
             </div>
             <div class="slds-backdrop slds-backdrop--open"></div>            
         </aura:if>
-    </div>
-   
+    </lightning:card>
+    
 </aura:component>
