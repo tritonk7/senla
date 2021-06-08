@@ -41,6 +41,16 @@
                         mode: 'pester'
                     });
                     toastEvent.fire();
+                } else {
+                    let toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        message: $A.get("$Label.c.Error_Trip"),
+                        duration:' 4000',
+                        key: 'info_alt',
+                        type: 'error',
+                        mode: 'pester'
+                    });
+                    toastEvent.fire();
                 }
             }
         });
@@ -57,15 +67,28 @@
         for (let i = 0; i < selectedRows.length; i++) {
             setRow.push(selectedRows[i]);
         } 
-        if (setRow.length > seats) {
-            let toastEvent = $A.get("e.force:showToast");
-            toastEvent.setParams({
-                message: $A.get("$Label.c.NotEnoughtlSeats"),
-                duration:' 4000',
-                type: 'error',
-                mode: 'pester'
-            });
-            toastEvent.fire(); 
+        
+        if (setRow.length > seats || setRow.length == 0) {
+            if (setRow.length > seats) {
+                let toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    message: $A.get("$Label.c.NotEnoughtlSeats"),
+                    duration:' 4000',
+                    type: 'error',
+                    mode: 'pester'
+                });
+                toastEvent.fire(); 
+            }
+            if (setRow.length == 0) {
+                let toastEvent = $A.get("e.force:showToast");
+                toastEvent.setParams({
+                    message:  $A.get("$Label.c.TouristsIsNotSelected"),
+                    duration:' 4000',
+                    type: 'error',
+                    mode: 'pester'
+                });
+                toastEvent.fire(); 
+            } 
         } else {
             component.set("v.showConfirmDialog", true);  
         } 
