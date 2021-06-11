@@ -1,0 +1,119 @@
+<aura:component controller="TouristAssignmentCmpController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="touristId" type="Id"/>
+    <aura:attribute name="tripId" type="Id"/>
+    <aura:attribute name="busySeats" type="Integer"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="flightData" type="List"/>
+    <aura:attribute name="selectedRows" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="tourist" type="List"/>
+    <aura:attribute name="selectedTourists" type="List" />
+    <aura:attribute name="setSeats" type="Integer" />
+    <aura:attribute name="setToday" type="Date" />
+    <aura:attribute name="touristData" type="Object"/>
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="zoomLevel" type="Integer" />
+    <aura:attribute name="isVisible" type="boolean" default="false"/>
+    <aura:attribute name="isVisibleMap" type="boolean" default="false"/>
+    <aura:attribute name="isVisibleButton" type="boolean" default="false"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+    <aura:attribute name="maxRowSelectionForTrip" type="Integer" default="1"/>
+    <aura:attribute name="touristAge" type="Integer"/>
+    <aura:attribute name="tripName" type="String"/>
+    <aura:attribute name="minimumAge" type="Integer"/>
+    <aura:attribute name="setStartDate" type="Date" />
+    <aura:attribute name="setEndDate" type="Date" />
+    <aura:attribute name="setSpacePoint" type="String" />
+    <aura:attribute name="setFreeSeats" type="Integer" />
+    <aura:attribute name="weather" type="Object" />
+    <aura:attribute name="setTemperature" type="Integer" />
+    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.setFreeSeats}" action="{!c.onChangeTourist}"/>
+    <aura:handler name="change" value="{!v.setSpacePoint}" action="{!c.onChangeTourist}"/>
+    <aura:handler name="change" value="{!v.touristAge}" action="{!c.onChangeTourist}"/>
+    <aura:handler event="force:refreshView" action="{!c.isRefreshed}" />
+    
+    <lightning:layout>
+        <lightning:layoutItem   padding="around-small">
+            <div style="height:300px; width: 400px">
+                <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="Select tourist for trip">
+                    <div style="height: 400px">
+                        <lightning:datatable
+                                             keyField="id"
+                                             data="{!v.touristData}"
+                                             columns="{!v.tourist}"
+                                             maxRowSelection="{!v.maxRowSelection }"
+                                             onrowselection="{!c.handleSelectTourist}"/>
+                    </div>
+                    <div class="slds-border_top slds-box" >
+                        <lightning:button variant="brand" label="Clear" onclick="{!c.handleClean}"/>
+                        <aura:if isTrue="{!v.isVisibleButton}">
+                            <lightning:button variant="brand" label="Submit" onclick="{!c.handleConfirmDialog}"/>
+                        </aura:if>
+                    </div>
+                </lightning:card>
+            </div>
+        </lightning:layoutItem  >
+        <lightning:layoutItem padding="around-small">
+            <aura:if isTrue="{!v.isVisible}">
+                <div style="width: 400px">
+                    <lightning:card class="slds-p-around_x-small" iconName="standard:contact" title="Select trip for this tourist">
+                        <div style="height: 465px">
+                            <lightning:datatable
+                                                 keyField="id"
+                                                 data="{!v.data}"
+                                                 maxRowSelection="{! v.maxRowSelectionForTrip }"
+                                                 onrowselection="{!c.handleSelect}"
+                                                 columns="{!v.columns}" />
+                        </div>
+                    </lightning:card>
+                </div>
+            </aura:if>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+            <aura:if isTrue="{!v.isVisibleMap}">
+                <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="{!'Information about Trip:' + ' ' + v.tripName}">
+                    <div class="slds-box" style="height:200px">
+                        <p> <b>Free seats: </b> <ui:outputText value="{!v.setFreeSeats}" /></p>
+                        <p><b>Minimum Age: </b> <ui:outputText value="{!v.minimumAge}"/></p>
+                        <p><b>Trip Start Date: </b> <ui:outputText value="{!v.setStartDate}"/></p>
+                        <p><b>Trip End Date: </b> <ui:outputText value="{!v.setEndDate}"/></p>
+                        <p><b>Departure Space Point: </b> <ui:outputText value="{!v.setSpacePoint}"/></p>
+                        <p> <b> Date Today: </b> <ui:outputText value="{!v.setToday}" /></p>
+                        <p> <b> Average temperature  Today: </b> <ui:outputText value="{!v.setTemperature}" /></p>
+                    </div>
+                    <div class="slds-box slds-align_absolute-center" style="height:15px">
+                        <p><b>Geolocation of the Space Point</b> </p>
+                    </div>
+                    <div style="height: 230px" class="slds-align_absolute-center">
+                        <lightning:map 
+                                       mapMarkers="{! v.mapMarkers }" 
+                                       zoomLevel="{!v.zoomLevel}" />
+                    </div>
+                </lightning:card> 
+            </aura:if>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+    <aura:if isTrue="{!v.showConfirmDialog}">
+        <div role="dialog" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h1 class="slds-text-heading--medium">Confirmation</h1>
+                </header>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <center><b>{!$Label.c.TouristBeAdd}</b></center>
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    <lightning:button name='No' label='No' onclick='{!c.handleConfirmDialogNo}'/>
+                    <lightning:button variant="brand" name='Yes' label='Yes' onclick='{!c.handleConfirmDialogYes}'/>
+                </footer>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>            
+    </aura:if>
+    
+</aura:component>

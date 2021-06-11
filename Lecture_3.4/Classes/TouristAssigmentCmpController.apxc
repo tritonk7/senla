@@ -1,0 +1,69 @@
+public with sharing class TouristAssignmentCmpController {    
+    
+    @AuraEnabled
+    public static List<Trip__c> fetchTrip() {
+        return [
+            SELECT Id,
+            Start_Data__c,
+            End_Date__c,
+            Departure_Space_Point__r.City__c,
+            Name,
+            Mininmum_Age__c,
+            Seats__c
+            FROM Trip__c
+            WHERE Start_Data__c >= : Date.today()
+            
+        ];
+        
+    }
+    
+    @AuraEnabled
+    public static List<Tourists__c> fetchTourists() {
+        return [
+            SELECT Id,
+            Name,
+            Tourist_Age__c
+            FROM Tourists__c
+            WHERE Active__c = TRUE
+        ];
+    }
+    
+    @AuraEnabled
+    public static List<String> fetchFlights() {
+        List<String> tripIds = new List<String>();
+        List<Flight__c> flights =  [
+            SELECT Trip__c
+            FROM Flight__c
+        ];
+        
+        for(Flight__c item : flights) {
+            tripIds.add(item.Trip__c);
+        }
+        return tripIds;
+    }
+    
+    @AuraEnabled
+    public static Flight__c createFlight(Id tripId, Id touristId) {
+        Flight__c flight = new Flight__c(
+            New_Tourist__c = touristId,
+            Trip__c = tripId,
+            Status__c = Constants.FLIGHT_STATUS_REQUESTED
+        );
+        
+        insert flight;
+        
+        return flight;
+    }
+    
+    @AuraEnabled
+    public static List<Weather_Daily_Forecast__c> fetchWeather() {
+        return [
+            SELECT Id,
+            Average_Temperature__c,
+            Space_Point__r.City__c
+            FROM Weather_Daily_Forecast__c
+            WHERE Date__c = : Date.today()
+            
+        ];
+    }
+}
