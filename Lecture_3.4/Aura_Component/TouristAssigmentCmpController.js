@@ -36,6 +36,7 @@
         let busySeats = [];
         let weather = component.get("v.weather");
         let city = component.get("v.setSpacePoint")
+        let touristId = component.get("v.touristId");
         
         for (let i = 0; i < weather.length; i++) {
             if (city == weather[i].Space_Point__r.City__c) {
@@ -43,11 +44,20 @@
             }
         }
         
-        for (let i = 0; i < flight.length; i++) {
-            if(tripId == flight[i]) {
-                busySeats.push(flight[i]);
-                component.set("v.busySeats",busySeats.length);
-            }  
+        if (flight.length == 0) {
+            component.set("v.busySeats",0);
+        }else {
+            
+            for (let i = 0; i < flight.length; i++) {
+                if (tripId == flight[i].Trip__c && touristId == flight[i].New_Tourist__c) {
+                    busySeats.push(flight[i].Trip__c);
+                    component.set("v.busySeats",busySeats.length);
+                    component.set("v.isCheckTourist",true);
+                } else {
+                    component.set("v.busySeats",0);
+                    component.set("v.isCheckTourist",false);
+                }  
+            }
         }
         let freeSeats  = component.get("v.setSeats") - component.get("v.busySeats");
         component.set("v.setFreeSeats",freeSeats);
@@ -60,7 +70,9 @@
         let city = component.get("v.setSpacePoint");
         let check = typeof city;
         let freeSeats = component.get("v.setFreeSeats");
-        if (touristAge >= tripAge && freeSeats > 0) {
+        let checkTourist = component.get("v.isCheckTourist");
+    
+        if (touristAge >= tripAge && freeSeats > 0 && !checkTourist) {
             component.set("v.isVisibleButton", true);
         } else {
             component.set("v.isVisibleButton", false);

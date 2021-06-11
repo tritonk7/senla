@@ -3,7 +3,7 @@
     <aura:attribute name="tripId" type="Id"/>
     <aura:attribute name="busySeats" type="Integer"/>
     <aura:attribute name="data" type="Object"/>
-    <aura:attribute name="flightData" type="List"/>
+    <aura:attribute name="flightData" type="Object"/>
     <aura:attribute name="selectedRows" type="List"/>
     <aura:attribute name="columns" type="List"/>
     <aura:attribute name="tourist" type="List"/>
@@ -28,6 +28,7 @@
     <aura:attribute name="weather" type="Object" />
     <aura:attribute name="setTemperature" type="Integer" />
     <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
+    <aura:attribute name="isCheckTourist" type="boolean" default="false"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.setFreeSeats}" action="{!c.onChangeTourist}"/>
