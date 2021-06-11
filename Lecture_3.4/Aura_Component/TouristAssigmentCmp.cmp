@@ -33,7 +33,6 @@
     <aura:handler name="change" value="{!v.setFreeSeats}" action="{!c.onChangeTourist}"/>
     <aura:handler name="change" value="{!v.setSpacePoint}" action="{!c.onChangeTourist}"/>
     <aura:handler name="change" value="{!v.touristAge}" action="{!c.onChangeTourist}"/>
-    <aura:handler event="force:refreshView" action="{!c.isRefreshed}" />
     
     <lightning:layout>
         <lightning:layoutItem   padding="around-small">

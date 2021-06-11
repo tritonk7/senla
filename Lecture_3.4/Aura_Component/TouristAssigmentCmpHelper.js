@@ -1,4 +1,4 @@
-(({ 
+({ 
     fetchTourists : function(component, event) {       
         let action = component.get("c.fetchTourists");
         action.setCallback(this, function(response) {
@@ -94,9 +94,5 @@
             }
         });
         $A.enqueueAction(action);
-    },
-    
-    isRefreshed: function(component, event, helper) {
-        location.reload();
     }
 })
