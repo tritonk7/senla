@@ -1,8 +1,19 @@
-public with sharing class TouristAssignmentCmpController {    
+public with Sharing class TouristAssignmentCmpController {    
     
     @AuraEnabled
-    public static List<Trip__c> fetchTrip() {
-        return [
+    public static List<Trip__c> fetchTrip(String touristsId) {
+        List<Flight__c> flights = [
+            SELECT Trip__c
+            FROM Flight__c
+            WHERE New_Tourist__c = :touristsId
+        ];
+        Set<String> tripId = new Set<String>();
+        
+        for (Flight__c item : flights) {
+            tripId.add(item.Trip__c);
+        }
+        
+        List<Trip__c> trips = [
             SELECT Id,
             Start_Data__c,
             End_Date__c,
@@ -11,35 +22,23 @@ public with sharing class TouristAssignmentCmpController {
             Mininmum_Age__c,
             Seats__c
             FROM Trip__c
-            WHERE Start_Data__c >= : Date.today()
-            
+            WHERE Id != :tripId
+            AND Start_Data__c > :Date.today() 
         ];
+        
+        return trips;
         
     }
     
     @AuraEnabled
-    public static List<Tourists__c> fetchTourists() {
-        return [
-            SELECT Id,
-            Name,
-            Tourist_Age__c
-            FROM Tourists__c
-            WHERE Active__c = TRUE
-        ];
-    }
-    
-    @AuraEnabled
-    public static List<String> fetchFlights() {
-        List<String> tripIds = new List<String>();
+    public static List<Flight__c> fetchFlights() {
         List<Flight__c> flights =  [
-            SELECT Trip__c
+            SELECT Trip__c,
+            New_Tourist__c
             FROM Flight__c
         ];
         
-        for(Flight__c item : flights) {
-            tripIds.add(item.Trip__c);
-        }
-        return tripIds;
+        return flights;
     }
     
     @AuraEnabled
@@ -49,7 +48,6 @@ public with sharing class TouristAssignmentCmpController {
             Trip__c = tripId,
             Status__c = Constants.FLIGHT_STATUS_REQUESTED
         );
-        
         insert flight;
         
         return flight;
@@ -63,7 +61,6 @@ public with sharing class TouristAssignmentCmpController {
             Space_Point__r.City__c
             FROM Weather_Daily_Forecast__c
             WHERE Date__c = : Date.today()
-            
         ];
     }
 }

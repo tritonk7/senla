@@ -1,51 +1,42 @@
 <aura:component controller="TouristAssignmentCmpController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
     <aura:attribute name="touristId" type="Id"/>
     <aura:attribute name="tripId" type="Id"/>
-    <aura:attribute name="busySeats" type="Integer"/>
     <aura:attribute name="data" type="Object"/>
     <aura:attribute name="flightData" type="Object"/>
     <aura:attribute name="selectedRows" type="List"/>
     <aura:attribute name="columns" type="List"/>
-    <aura:attribute name="tourist" type="List"/>
-    <aura:attribute name="selectedTourists" type="List" />
-    <aura:attribute name="setSeats" type="Integer" />
     <aura:attribute name="setToday" type="Date" />
-    <aura:attribute name="touristData" type="Object"/>
     <aura:attribute name="mapMarkers" type="Object"/>
     <aura:attribute name="zoomLevel" type="Integer" />
     <aura:attribute name="isVisible" type="boolean" default="false"/>
     <aura:attribute name="isVisibleMap" type="boolean" default="false"/>
     <aura:attribute name="isVisibleButton" type="boolean" default="false"/>
-    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
-    <aura:attribute name="maxRowSelectionForTrip" type="Integer" default="1"/>
     <aura:attribute name="touristAge" type="Integer"/>
     <aura:attribute name="tripName" type="String"/>
     <aura:attribute name="minimumAge" type="Integer"/>
     <aura:attribute name="setStartDate" type="Date" />
     <aura:attribute name="setEndDate" type="Date" />
     <aura:attribute name="setSpacePoint" type="String" />
-    <aura:attribute name="setFreeSeats" type="Integer" />
+    <aura:attribute name="setSeats" type="Integer" />
+    <aura:attribute name="freeSeats" type="Integer" />
     <aura:attribute name="weather" type="Object" />
     <aura:attribute name="setTemperature" type="Integer" />
     <aura:attribute name="showConfirmDialog" type="boolean" default="false"/>
     <aura:attribute name="isCheckTourist" type="boolean" default="false"/>
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.setFreeSeats}" action="{!c.onChangeTourist}"/>
-    <aura:handler name="change" value="{!v.setSpacePoint}" action="{!c.onChangeTourist}"/>
-    <aura:handler name="change" value="{!v.touristAge}" action="{!c.onChangeTourist}"/>
+    <aura:handler name="change" value="{!v.setSpacePoint}" action="{!c.onChange}"/>
+    <aura:handler name="change" value="{!v.freeSeats}" action="{!c.onChange}"/>
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.handleSelectTourist}"/>
+    <aura:handler name="change" value="{!v.touristId}" action="{!c.selectedTrip}"/>
     
     <lightning:layout>
         <lightning:layoutItem   padding="around-small">
             <div style="height:300px; width: 400px">
                 <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="Select tourist for trip">
                     <div style="height: 400px">
-                        <lightning:datatable
-                                             keyField="id"
-                                             data="{!v.touristData}"
-                                             columns="{!v.tourist}"
-                                             maxRowSelection="{!v.maxRowSelection }"
-                                             onrowselection="{!c.handleSelectTourist}"/>
+                        <c:customLookup objectAPIName="Tourists__c" IconName="standard:account" label="Select Tourist" selectedRecord="{!v.selectedLookUpRecord}"/>
                     </div>
                     <div class="slds-border_top slds-box" >
                         <lightning:button variant="brand" label="Clear" onclick="{!c.handleClean}"/>
@@ -64,7 +55,7 @@
                             <lightning:datatable
                                                  keyField="id"
                                                  data="{!v.data}"
-                                                 maxRowSelection="{! v.maxRowSelectionForTrip }"
+                                                 maxRowSelection="1"
                                                  onrowselection="{!c.handleSelect}"
                                                  columns="{!v.columns}" />
                         </div>
@@ -76,7 +67,7 @@
             <aura:if isTrue="{!v.isVisibleMap}">
                 <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="{!'Information about Trip:' + ' ' + v.tripName}">
                     <div class="slds-box" style="height:200px">
-                        <p> <b>Free seats: </b> <ui:outputText value="{!v.setFreeSeats}" /></p>
+                        <p> <b>Free seats: </b> <ui:outputText value="{!v.freeSeats}" /></p>
                         <p><b>Minimum Age: </b> <ui:outputText value="{!v.minimumAge}"/></p>
                         <p><b>Trip Start Date: </b> <ui:outputText value="{!v.setStartDate}"/></p>
                         <p><b>Trip End Date: </b> <ui:outputText value="{!v.setEndDate}"/></p>
@@ -96,7 +87,6 @@
             </aura:if>
         </lightning:layoutItem>
     </lightning:layout>
-    
     <aura:if isTrue="{!v.showConfirmDialog}">
         <div role="dialog" class="slds-modal slds-fade-in-open ">
             <div class="slds-modal__container">
@@ -106,7 +96,6 @@
                 <div class="slds-modal__content slds-p-around--medium">
                     <center><b>{!$Label.c.TouristBeAdd}</b></center>
                 </div>
-                
                 <footer class="slds-modal__footer">
                     <lightning:button name='No' label='No' onclick='{!c.handleConfirmDialogNo}'/>
                     <lightning:button variant="brand" name='Yes' label='Yes' onclick='{!c.handleConfirmDialogYes}'/>
@@ -115,5 +104,4 @@
         </div>
         <div class="slds-backdrop slds-backdrop--open"></div>            
     </aura:if>
-    
 </aura:component>
