@@ -1,34 +1,4 @@
-({ 
-    fetchTourists : function(component, event) {       
-        let action = component.get("c.fetchTourists");
-        action.setCallback(this, function(response) {
-            let state = response.getState();
-            if (state === "SUCCESS") {
-                let records = response.getReturnValue();
-                records.forEach(function(record) {
-                    record.linkName = '/' + record.Id;
-                });
-                component.set("v.touristData", records);
-            }
-        });
-        $A.enqueueAction(action);
-    },
-    
-    fetchTrip : function(component, event) {
-        let action = component.get("c.fetchTrip");
-        action.setCallback(this, function(response) {
-            let state = response.getState();
-            if (state === "SUCCESS") {
-                let records = response.getReturnValue();
-                records.forEach(function(record) {
-                    record.linkName = '/' + record.Id;
-                });
-                component.set("v.data", records);
-            }
-        });
-        $A.enqueueAction(action);
-    },
-    
+({    
     fetchFlights : function(component, event) {
         let action = component.get("c.fetchFlights");
         action.setCallback(this, function(response) {
@@ -38,7 +8,7 @@
                 if (records.length > 0) {
                     component.set("v.flightData", records);
                 } else {
-                    component.set("v.flightData",[]);
+                    component.set("v.flightData", []);
                 }
             }
         });
@@ -63,9 +33,9 @@
         let selectedRows = event.getParam("selectedRows"); 
         component.set('v.tripId',selectedRows[0].Id);
         component.set('v.setStartDate',selectedRows[0].Start_Data__c);
+        component.set('v.setEndDate',selectedRows[0].End_Date__c);
         component.set('v.tripName',selectedRows[0].Name);
         component.set('v.minimumAge',selectedRows[0].Mininmum_Age__c);
-        component.set('v.setEndDate',selectedRows[0].End_Date__c);
         component.set('v.setSpacePoint',selectedRows[0].Departure_Space_Point__r.City__c);
         component.set('v.setSeats',selectedRows[0].Seats__c);
     },
