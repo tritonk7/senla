@@ -1,4 +1,4 @@
-public with Sharing class TouristAssignmentCmpController {    
+public with sharing class TouristAssignmentCmpController {    
     
     @AuraEnabled
     public static List<Trip__c> fetchTrip(String touristsId) {
