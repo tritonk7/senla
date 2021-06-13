@@ -18,6 +18,7 @@
     },
     
     fetchFlights : function(component, event) {
+        let updateTable = component.get("c.dataTableUpdate");
         let records = component.get("v.selectedTourists");
         let ids = [];
         
@@ -55,6 +56,7 @@
             }
         });
         $A.enqueueAction(action);
+        $A.enqueueAction(updateTable);
     },
     
     fetchValidation : function(component, event) {
@@ -138,7 +140,7 @@
         let seats = component.get("v.setSeats");
         let today = component.get("v.setToday");
         let startDate = component.get("v.setStartDate");
-        if (seats <= 0 || startDate < today) {
+        if (seats <= 0 || startDate <= today) {
             component.set("v.isVisibleButton",false);
         } else {
             component.set("v.isVisibleButton",true);

@@ -1,5 +1,5 @@
 ({
-    doInit : function (component, event, helper) {
+    doInit : function(component, event, helper) {
         component.set("v.columns", [
             {label: 'Tourist Name', fieldName: 'linkName', type: 'url', 
              typeAttributes: { label: { fieldName: 'Name' }, target: '_self', tooltip: {fieldName: 'Name' }}},
@@ -12,6 +12,12 @@
         
         let today = $A.localizationService.formatDate(new Date(), "YYYY-MM-DD");
         component.set("v.setToday", today);
+    },
+    
+    dataTableUpdate : function(component, event, helper) {
+        helper.fetchTourists(component, event);
+        let seat  = component.get("v.setSeats") - 1;
+        component.set("v.setSeats", seat); 
     },
     
     onChange : function(component, event, helper) {
@@ -27,8 +33,8 @@
     },
     
     handleConfirmDialogYes : function(component, event, helper) {
-        helper.fetchFlights(component, event);
         component.set("v.showConfirmDialog", false);
+        helper.fetchFlights(component, event);
     },
     
     handleConfirmDialogNo : function(component, event, helper) {
