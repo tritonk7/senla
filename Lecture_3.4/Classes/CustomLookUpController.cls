@@ -6,7 +6,7 @@ public with sharing clas CustomLookUpController {
         
         List<sObject> returnList = new List<sObject> ();
          
-        String sQuery =  'select id, Name, Tourist_Age__c from ' + ObjectName + ' where Name LIKE: searchKey order by createdDate DESC limit 10';
+        String sQuery =  'SELECT Id, Name, Tourist_Age__c from ' + ObjectName + ' WHERE Name LIKE: searchKey ORDER BY createdDate DESC limit 10';
         List<sObject> lstOfRecords = Database.query(sQuery);
         
         for (sObject obj: lstOfRecords) {
