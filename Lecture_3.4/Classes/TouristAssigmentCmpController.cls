@@ -1,44 +1,22 @@
-public with sharing class TouristAssignmentCmpController {    
+public inherited sharing class TouristAssignmentCmpController {    
     
     @AuraEnabled
     public static List<Trip__c> fetchTrip(String touristsId) {
-        List<Flight__c> flights = [
-            SELECT Trip__c
-            FROM Flight__c
-            WHERE New_Tourist__c = :touristsId
-        ];
-        Set<String> tripId = new Set<String>();
+        List<Flight__c> flights = FlightManager.getByTouristId(touristsId);
+        Set<String> tripIds = new Set<String>();
         
         for (Flight__c item : flights) {
-            tripId.add(item.Trip__c);
+            tripIds.add(item.Trip__c);
         }
         
-        List<Trip__c> trips = [
-            SELECT Id,
-            Start_Data__c,
-            End_Date__c,
-            Departure_Space_Point__r.City__c,
-            Name,
-            Mininmum_Age__c,
-            Seats__c
-            FROM Trip__c
-            WHERE Id != :tripId
-            AND Start_Data__c > :Date.today() 
-        ];
+        List<Trip__c> trips = TripManager.tripNotEqualById(tripIds);
         
-        return trips;
-        
+        return trips;  
     }
     
     @AuraEnabled
     public static List<Flight__c> fetchFlights() {
-        List<Flight__c> flights =  [
-            SELECT Trip__c,
-            New_Tourist__c
-            FROM Flight__c
-        ];
-        
-        return flights;
+        return FlightManager.allFlightsForTouristAssignment();
     }
     
     @AuraEnabled
@@ -55,12 +33,6 @@ public with sharing class TouristAssignmentCmpController {
     
     @AuraEnabled
     public static List<Weather_Daily_Forecast__c> fetchWeather() {
-        return [
-            SELECT Id,
-            Average_Temperature__c,
-            Space_Point__r.City__c
-            FROM Weather_Daily_Forecast__c
-            WHERE Date__c = : Date.today()
-        ];
+        return WeatherDailyForecastManager.getTodayWeather();
     }
 }
