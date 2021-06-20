@@ -47,7 +47,7 @@ public class FlightManager {
     }
     
     public static List<Flight__c> getByTripId(String tripId) {
-        if(String.isBlank(tripId)) {
+        if (String.isBlank(tripId)) {
             return new List<Flight__c>();
         }
         return [
@@ -59,4 +59,20 @@ public class FlightManager {
             WHERE Trip__c = :tripId
         ];
     }
+    
+    public static List<Flight__c> getByTouristId(String touristsId) {
+        return [
+            SELECT Trip__c
+            FROM Flight__c
+            WHERE New_Tourist__c = :touristsId
+        ];
+    }
+    
+     public static List<Flight__c> allFlightsForTouristAssignment() {
+        return [
+            SELECT Trip__c,
+            New_Tourist__c
+            FROM Flight__c
+        ];
+     }
 }
