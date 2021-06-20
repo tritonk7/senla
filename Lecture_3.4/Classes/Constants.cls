@@ -5,6 +5,7 @@ public class Constants {
     public static final String MAIL_SUBJECT = 'Batch was completed.';
     public static final String FLIGHT_STATUS_DECLINED = 'Declined';
     public static final String FLIGHT_STATUS_OFFER_PENDING = 'Offer Pending';
+    public static final String FLIGHT_STATUS_REQUESTED = 'Requested';
     public static final String RESPONSE_BODY_NAME_EMPTY = 'The name must be not empty.';
     public static final String RESPONSE_BODY_AGE_NOT_INTEGER_TYPE = 'The age must be a number.';
     public static final String RESPONSE_BODY_DUPLICATE_TOURIST = 'This tourist is duplicate.';
