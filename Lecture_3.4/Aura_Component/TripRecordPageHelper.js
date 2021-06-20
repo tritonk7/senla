@@ -1,7 +1,36 @@
 ({
-    fetchTourists : function(component, event) {
-        let action = component.get("c.fetchTourist");
-        action.setParams({
+    fetchTourists : function(component) {
+        component.set("v.columns", 
+                      [             
+                          {
+                              label: 'Tourist Name', 
+                              fieldName: 'linkName',
+                              type: 'url', 
+                              typeAttributes: { 
+                                  label: { 
+                                      fieldName: 'Name' 
+                                  },
+                                  target: '_self',
+                                  tooltip: {
+                                      fieldName: 'Name' 
+                                  }
+                              }
+                          },
+                          {
+                              label: 'Email',
+                              fieldName: 'Tourist_Email__c',
+                              type: 'email'
+                          },
+                          {
+                              label: 'Gender',
+                              fieldName: 'Gender__c',
+                              type: 'picklist'
+                          }
+                      ]
+                     );
+        
+        let action = component.get("c.fetchTourists");
+        action.setParam({
             tripId : component.get("v.recordId")
         });
         action.setCallback(this, function(response) {
@@ -17,14 +46,14 @@
         $A.enqueueAction(action);
     },
     
-    fetchFlights : function(component, event) {
-        let updateTable = component.get("c.dataTableUpdate");
+    fetchFlights : function(component) {
         let records = component.get("v.selectedTourists");
         let ids = [];
         
         for (let i = 0; i < records.length; i++) {
             ids.push(records[i].Id);
         } 
+        
         let action = component.get("c.saveFlight");
         action.setParams({tripId : component.get("v.recordId"),
                           touristIds : ids
@@ -42,12 +71,12 @@
                         mode: 'pester'
                     });
                     toastEvent.fire();
+                    component.set("v.isRefreshTable", true);
                 } else {
                     let toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
                         message: $A.get("$Label.c.Error_Trip"),
                         duration:' 4000',
-                        key: 'info_alt',
                         type: 'error',
                         mode: 'pester'
                     });
@@ -56,15 +85,14 @@
             }
         });
         $A.enqueueAction(action);
-        $A.enqueueAction(updateTable);
     },
     
-    fetchValidation : function(component, event) {
+    fetchValidation : function(component) {
         let selectedRows = component.get("v.selectedTourists");
-        let seats = component.get("v.setSeats");
+        let seats = component.get("v.seats");
         let setRow = [];
-        let startDate = component.get("v.setStartDate");
-        let today = component.get("v.setToday");
+        let startDate = component.get("v.startDate");
+        let today = component.get("v.today");
         
         for (let i = 0; i < selectedRows.length; i++) {
             setRow.push(selectedRows[i]);
@@ -92,11 +120,11 @@
                 toastEvent.fire(); 
             } 
         } else {
-            component.set("v.showConfirmDialog", true);  
+            component.set("v.isShowConfirmDialog", true);  
         } 
     },
     
-    fetchSeats : function(component, event) {
+    fetchSeats : function(component) {
         let freeSeats = component.get("c.getSeats");
         freeSeats.setParams({
             tripId : component.get("v.recordId")
@@ -105,13 +133,13 @@
             let state = response.getState();
             if (state === "SUCCESS") {
                 let result = response.getReturnValue();
-                component.set("v.setSeats", result);
+                component.set("v.seats", result);
             }
         });
         $A.enqueueAction(freeSeats);
     },
     
-    fetchStartDate : function(component, event) {
+    fetchStartDate : function(component) {
         let freeSeats = component.get("c.getStartDate");
         freeSeats.setParams({
             tripId : component.get("v.recordId")
@@ -120,7 +148,7 @@
             let state = response.getState();
             if (state === "SUCCESS") {
                 let result = response.getReturnValue();
-                component.set("v.setStartDate", result);
+                component.set("v.startDate", result);
             }
         });
         $A.enqueueAction(freeSeats); 
@@ -136,10 +164,10 @@
         component.set("v.selectedTourists", setRows);
     },
     
-    fetchVisibleButton : function (component, event) {
-        let seats = component.get("v.setSeats");
-        let today = component.get("v.setToday");
-        let startDate = component.get("v.setStartDate");
+    fetchVisibleButton : function (component) {
+        let seats = component.get("v.seats");
+        let today = component.get("v.today");
+        let startDate = component.get("v.startDate");
         if (seats <= 0 || startDate <= today) {
             component.set("v.isVisibleButton",false);
         } else {
