@@ -3,7 +3,6 @@
     <aura:attribute name="tripId" type="Id" access="public"/>
     <aura:attribute name="data" type="List" access="public"/>
     <aura:attribute name="flightData" type="List" access="public"/>
-    <aura:attribute name="selectedRows" type="List" access="public"/>
     <aura:attribute name="columns" type="List" access="public"/>
     <aura:attribute name="today" type="Date" access="public"/>
     <aura:attribute name="mapMarkers" type="List" access="public"/>
@@ -22,7 +21,6 @@
     <aura:attribute name="weather" type="List" access="public"/>
     <aura:attribute name="temperature" type="Integer" access="public"/>
     <aura:attribute name="showConfirmDialog" type="Boolean" default="false" access="public"/>
-    <aura:attribute name="isCheckTourist" type="Boolean" default="false" access="public"/>
     <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}" access="public"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -33,7 +31,6 @@
     
     <lightning:layout  multipleRows="true">
         <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small" flexibility="auto">
-            
             <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="{!$Label.c.Select_tourist_for_trip}">
                 <div class="slds-box">  
                     <c:customLookup objectAPIName="Tourists__c" IconName="standard:account" selectedRecord="{!v.selectedLookUpRecord}"/>
@@ -45,46 +42,45 @@
                     </aura:if>
                 </div>
             </lightning:card>
-            
         </lightning:layoutItem>
         <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small" flexibility="auto">
             <aura:if isTrue="{!v.isVisible}">
-                
                 <lightning:card class="slds-p-around_x-small" iconName="standard:contact" title="{!$Label.c.Select_Trip}">
                     <div class="slds-box">
-                        <lightning:datatable
-                                             keyField="id"
-                                             data="{!v.data}"
-                                             maxRowSelection="1"
-                                             onrowselection="{!c.handleSelect}"
-                                             columns="{!v.columns}" />
+                        <aura:iteration items="{!v.data}" var="trip" indexVar="idx">
+                            <p class="slds-p-horizontal_medium">
+                                <div data-record="{!idx}" onclick="{!c.handleSelect}">
+                                    <div class="slds-box ">
+                                        <img class="slds-align_absolute-center" src="{!$Resource.trip + '/' + trip.Name + '.png'}"/>
+                                    </div>
+                                </div>
+                            </p>
+                        </aura:iteration>                            
                     </div>
                 </lightning:card>
-                
             </aura:if>
         </lightning:layoutItem>
         <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small" flexibility="auto">
             <aura:if isTrue="{!v.isVisibleMap}">
                 <lightning:card class="slds-p-around_x-small"  iconName="standard:account" title="{!'Information about Trip:' + ' ' + v.tripName}">
                     <div class="slds-box">    
-                        <p><b>{!$Label.c.Free_Seats} </b> <ui:outputText value="{!v.freeSeats}" /></p>
-                        <p><b>{!$Label.c.Minimum_Age} </b> <ui:outputText value="{!v.minimumAge}"/></p>
-                        <p><b>{!$Label.c.Trip_Start_Date} </b> <ui:outputText value="{!v.startDate}"/></p>
-                        <p><b>{!$Label.c.Trip_End_Date} </b> <ui:outputText value="{!v.endDate}"/></p>
-                        <p><b>{!$Label.c.Departure_Space_Point} </b> <ui:outputText value="{!v.spacePoint}"/></p>
-                        <p><b>{!$Label.c.Today_Date} </b> <ui:outputText value="{!v.today}" /></p>
-                        <p><b>{!$Label.c.Average_temperature_Today} </b> <ui:outputText value="{!v.temperature}" /></p>
+                        <p><b>{!$Label.c.Free_Seats}</b> <ui:outputText value="{!v.freeSeats}" /></p>
+                        <p><b>{!$Label.c.Minimum_Age}</b> <ui:outputText value="{!v.minimumAge}"/></p>
+                        <p><b>{!$Label.c.Trip_Start_Date}</b> <ui:outputText value="{!v.startDate}"/></p>
+                        <p><b>{!$Label.c.Trip_End_Date}</b> <ui:outputText value="{!v.endDate}"/></p>
+                        <p><b>{!$Label.c.Departure_Space_Point}</b> <ui:outputText value="{!v.spacePoint}"/></p>
+                        <p><b>{!$Label.c.Today_Date}</b> <ui:outputText value="{!v.today}" /></p>
+                        <p><b>{!$Label.c.Average_temperature_Today}</b> <ui:outputText value="{!v.temperature}" /></p>
                     </div>
                     <div class="slds-box slds-align_absolute-center">
                         <p><b>{!$Label.c.Geolocation_of_the_Space_Point}</b> </p>
                     </div>
-                    <div class="slds-align_absolute-center">
+                    <div class="slds-box slds-align_absolute-center">
                         <lightning:map 
                                        mapMarkers="{!v.mapMarkers}" 
                                        zoomLevel="{!v.zoomLevel}"/>
                     </div>
                 </lightning:card>
-                
             </aura:if>
         </lightning:layoutItem>
     </lightning:layout>

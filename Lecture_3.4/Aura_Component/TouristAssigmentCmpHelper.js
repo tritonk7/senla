@@ -30,19 +30,21 @@
     },
     
     fetchTripSelectedRows : function (component, event) {
-        let selectedRows = event.getParam("selectedRows"); 
-        component.set('v.tripId',selectedRows[0].Id);
-        component.set('v.startDate',selectedRows[0].Start_Data__c);
-        component.set('v.endDate',selectedRows[0].End_Date__c);
-        component.set('v.tripName',selectedRows[0].Name);
-        component.set('v.minimumAge',selectedRows[0].Mininmum_Age__c);
-        component.set('v.spacePoint',selectedRows[0].Departure_Space_Point__r.City__c);
-        component.set('v.seats',selectedRows[0].Seats__c);
+        let selectedItem = event.currentTarget;
+        let index = selectedItem.dataset.record;
+        let selectedTrip = component.get("v.data")[index];
+        component.set('v.tripId',selectedTrip.Id);
+        component.set('v.startDate',selectedTrip.Start_Data__c);
+        component.set('v.endDate',selectedTrip.End_Date__c);
+        component.set('v.tripName',selectedTrip.Name);
+        component.set('v.minimumAge',selectedTrip.Mininmum_Age__c);
+        component.set('v.spacePoint',selectedTrip.Departure_Space_Point__r.City__c);
+        component.set('v.seats',selectedTrip.Seats__c);
     },  
     
     handleCreateFlight : function(component, event) {
-        let touristId =component.get("v.touristId");
-        let tripId =component.get("v.tripId");
+        let touristId = component.get("v.touristId");
+        let tripId = component.get("v.tripId");
         let action = component.get("c.createFlight");
         action.setParams({
             tripId: tripId,
@@ -111,29 +113,6 @@
     },
     
     fetchTrips : function(component) {
-        component.set("v.columns", 
-                      [
-                          {
-                              label: "Trip Name",
-                              fieldName: "linkName",
-                              type: "url", 
-                              typeAttributes: {
-                                  label: {
-                                      fieldName: 'Name' 
-                                  }, 
-                                  target: "_self",
-                                  tooltip: {
-                                      fieldName: "Name" 
-                                  }
-                              }
-                          },
-                          {
-                              label: 'Start Date',
-                              fieldName: 'Start_Data__c',
-                              type: 'Date'
-                          }
-                      ]
-                     );
         let action = component.get("c.fetchTrip");
         let id = component.get("v.touristId");
         if (typeof(id) === "UNDEFINED") {
@@ -150,9 +129,6 @@
             let state = response.getState();
             if (state === "SUCCESS") {
                 let records = response.getReturnValue();
-                records.forEach(function(record) {
-                    record.linkName = '/' + record.Id;
-                });
                 component.set("v.data", records);
             }
         });
