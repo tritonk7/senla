@@ -1,0 +1,66 @@
+<aura:component controller="TripRecordPageController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId, force:lightningQuickAction" access="global">
+    
+    <aura:attribute name="recordId" type="Id" access="public"/>
+    <aura:attribute name="data" type="List" access="public"/>
+    <aura:attribute name="selectedRows" type="List" access="public"/>
+    <aura:attribute name="columns" type="List" access="public"/>
+    <aura:attribute name="selectedTourists" type="List" access="public"/>
+    <aura:attribute name="seats" type="Decimal" access="public"/>
+    <aura:attribute name="startDate" type="Date" access="public"/>
+    <aura:attribute name="today" type="Date" access="public"/>
+    <aura:attribute name="isShowSpinner" type="boolean" default="true" access="public"/>
+    <aura:attribute name="isShowConfirmDialog" type="boolean" default="false" access="public"/>
+    <aura:attribute name="isVisibleButton" type="boolean" default="true" access="public"/>
+    <aura:attribute name="isRefreshTable" type="boolean" default="false" access="public"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.isRefreshDataTable}" action="{!c.dataTableUpdate}"/>
+    <aura:handler name="change" value="{!v.seats}" action="{!c.onChange}"/>
+    <aura:handler event="aura:waiting" action="{!c.handleShowSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.handleHideSpinner}"/>
+    
+    <lightning:card iconName="standard:account" title="{!$Label.c.Suitable_tourists_for_this_trip}">
+        <div class="slds-box">
+            <p><b>{!$Label.c.Free_Seats} </b> <ui:outputText value="{!v.seats}" /></p>
+            <p><b>{!$Label.c.Trip_Start_Date} </b> <ui:outputText value="{!v.startDate}"/></p>
+            <p><b>{!$Label.c.Today_Date} </b> <ui:outputText value="{!v.today}"/></p>
+        </div>
+        
+        <lightning:datatable
+                             keyField="id"
+                             data="{!v.data}"
+                             onrowselection="{!c.handleSelect}"
+                             columns="{!v.columns}" />
+        
+        <div class="slds-border_top slds-box">
+            <aura:if isTrue="{!v.isVisibleButton}">
+                <lightning:button variant="brand" label="{!$Label.c.Add_To_Trip}" onclick="{!c.handleConfirmDialog}"/>
+            </aura:if>
+        </div>
+        <div class="slds-m-around--xx-large">
+            <aura:if isTrue="{!v.isShowSpinner}">
+                <lightning:spinner aura:id="spinner" variant="brand" size="large"/>
+            </aura:if>
+        </div>
+        
+        <aura:if isTrue="{!v.isShowConfirmDialog}">
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">{!$Label.c.Confirmation}</h1>
+                    </header>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <center><b>{!$Label.c.TouristBeAdd}</b></center>
+                    </div>
+                    
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="{!$Label.c.No}" onclick="{!c.handleConfirmDialogNo}"/>
+                        <lightning:button variant="brand" label="{!$Label.c.Yes}" onclick="{!c.handleConfirmDialogYes}"/>
+                    </footer>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>            
+        </aura:if>
+    </lightning:card>
+    
+</aura:component>
