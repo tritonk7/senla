@@ -1,7 +1,7 @@
 public inherited sharing class TouristAssignmentCmpController {    
     
     @AuraEnabled
-    public static List<Trip__c> fetchTrip(String touristsId) {
+    public static List<Trip__c> fetchTrips(String touristsId) {
         List<Flight__c> flights = FlightManager.getByTouristId(touristsId);
         Set<String> tripIds = new Set<String>();
         

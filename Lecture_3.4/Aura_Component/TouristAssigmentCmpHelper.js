@@ -113,7 +113,7 @@
     },
     
     fetchTrips : function(component) {
-        let action = component.get("c.fetchTrip");
+        let action = component.get("c.fetchTrips");
         let id = component.get("v.touristId");
         if (typeof(id) === "UNDEFINED") {
             component.set("v.isVisibleButton", false);
