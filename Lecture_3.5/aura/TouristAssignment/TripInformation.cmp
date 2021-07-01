@@ -1,0 +1,18 @@
+<aura:component >
+    <aura:attribute name="selectedTrip" type="Trip__c" access="public"/>
+     <aura:attribute name="freeSeats" type="Integer" access="public"/>
+    <aura:attribute name="today" type="Date" access="public"/>
+    <aura:attribute name="temperature" type="Integer" access="public"/>
+    
+    <aura:if isTrue="{!v.selectedTrip != null}">
+            <div class="slds-m-left_small">
+                <p><b>{!$Label.c.Free_Seats}</b> <ui:outputText value="{!v.freeSeats}" /></p>
+                <p><b>{!$Label.c.Minimum_Age}</b> <ui:outputText value="{!v.selectedTrip.Mininmum_Age__c}"/></p>
+                <p><b>{!$Label.c.Trip_Start_Date}</b> <ui:outputText value="{!v.selectedTrip.Start_Data__c}"/></p>
+                <p><b>{!$Label.c.Trip_End_Date}</b> <ui:outputText value="{!v.selectedTrip.End_Date__c}"/></p>
+                <p><b>{!$Label.c.Departure_Space_Point}</b> <ui:outputText value="{!v.selectedTrip.Departure_Space_Point__r.City__c}"/></p>
+                <p><b>{!$Label.c.Today_Date}</b> <ui:outputText value="{!v.today}" /></p>
+                <p><b>{!$Label.c.Average_temperature_Today}</b> <ui:outputText value="{!v.temperature}" /></p>
+            </div>
+    </aura:if>
+</aura:component>
