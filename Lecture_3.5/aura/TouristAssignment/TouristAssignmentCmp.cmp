@@ -1,7 +1,7 @@
 <aura:component controller="TouristAssignmentCmpController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
-    <aura:attribute name="touristId" type="Id" default="a0G5g000000Q3GpEAK" access="public"/>
+    <aura:attribute name="touristId" type="Id" access="public"/>
     <aura:attribute name="tripId" type="Id" access="public"/>
-    <aura:attribute name="data" type="List" access="public"/>
+    <aura:attribute name="tripData" type="List" access="public"/>
     <aura:attribute name="flightData" type="List" access="public"/>
     <aura:attribute name="today" type="Date" access="public"/>
     <aura:attribute name="mapMarkers" type="List" access="public"/>
@@ -9,7 +9,7 @@
     <aura:attribute name="isVisible" type="boolean" default="false" access="public"/>
     <aura:attribute name="isVisibleMap" type="boolean" default="false" access="public"/>
     <aura:attribute name="isDisableButton" type="boolean" default="true" access="public"/>
-    <aura:attribute name="touristAge" type="Integer" default="66" access="public"/>
+    <aura:attribute name="touristAge" type="Integer" access="public"/>
     <aura:attribute name="tripName" type="String" access="public"/>
     <aura:attribute name="minimumAge" type="Integer" access="public"/>
     <aura:attribute name="spacePoint" type="String" access="public"/>
@@ -31,7 +31,7 @@
             <aura:if isTrue="{!v.isVisible}">
                 <lightning:card class="slds-p-around_x-small" iconName="standard:contact" title="{!$Label.c.Select_Trip}">
                     <div class="slds-box">
-                        <aura:iteration items="{!v.data}" var="trip" indexVar="idx">
+                        <aura:iteration items="{!v.tripData}" var="trip" indexVar="idx">
                             <p class="slds-p-horizontal_medium">
                                 <div data-record="{!idx}" onclick="{!c.handleSelect}">
                                     <div class="slds-box ">

@@ -114,7 +114,7 @@ public class TouristManager {
             return new List<Tourists__c>();
         }
         return  [
-            SELECT Name 
+            SELECT Name
             FROM Tourists__c
             WHERE Id IN : touristsId
         ]; 
@@ -189,6 +189,19 @@ public class TouristManager {
             SELECT Id
             FROM Tourists__c
             WHERE Id = :touristIds
+        ]; 
+    }
+    
+    public static List<Tourists__c> getById(String touristId) {
+        if (touristId == null) {
+            return new List<Tourists__c>();
+        }
+        return  [
+            SELECT Id,
+            Name,
+            Tourist_Age__c
+            FROM Tourists__c
+            WHERE Id = :touristId
         ]; 
     }
 }

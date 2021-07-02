@@ -32,7 +32,7 @@
     fetchTripSelectedRows : function (component, event) {
         let selectedItem = event.currentTarget;
         let index = selectedItem.dataset.record;
-        let selectedTrip = component.get("v.data")[index];
+        let selectedTrip = component.get("v.tripData")[index];
         component.set("v.selectedTrip", selectedTrip);
         component.set("v.tripId", selectedTrip.Id);
         component.set("v.tripName", selectedTrip.Name);
@@ -42,12 +42,12 @@
     },  
     
     handleCreateFlight : function(component, event) {
-        let touristId = component.get("v.touristId");
+        let id = component.get("v.touristId");
         let tripId = component.get("v.tripId");
         let action = component.get("c.createFlight");
         action.setParams({
             tripId: tripId,
-            touristId: touristId
+            touristId: id
         });
         action.setCallback(this, function(response) {
             let state = response.getState();
@@ -128,7 +128,23 @@
             let state = response.getState();
             if (state === "SUCCESS") {
                 let records = response.getReturnValue();
-                component.set("v.data", records);
+                component.set("v.tripData", records);
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    
+        fetchTourist : function(component) {
+        let action = component.get("c.fetchTourist");
+        let id = component.get("v.touristId");
+        action.setParams({
+            touristsId : id
+        });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+                let records = response.getReturnValue();
+                component.set("v.touristAge", records[0].Tourist_Age__c);
             }
         });
         $A.enqueueAction(action);

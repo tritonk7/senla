@@ -1,6 +1,13 @@
 public inherited sharing class TouristAssignmentCmpController {    
     
     @AuraEnabled
+    public static List<Tourists__c> fetchTourist(String touristsId) {
+       List<Tourists__c> tourist = TouristManager.getById(touristsId);
+        
+        return tourist;
+    }
+    
+    @AuraEnabled
     public static List<Trip__c> fetchTrips(String touristsId) {
         List<Flight__c> flights = FlightManager.getByTouristId(touristsId);
         Set<String> tripIds = new Set<String>();

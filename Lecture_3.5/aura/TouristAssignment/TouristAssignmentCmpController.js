@@ -1,8 +1,13 @@
 ({
     doInit : function(component, event, helper) {
-        helper.fetchTrips(component);
+        let queryString = window.location.search;        
+        let urlParams = new URLSearchParams(queryString);
+        let id = urlParams.get("id");		
+        component.set("v.touristId", id);
         helper.fetchFlights(component);
         helper.fetchWeather(component);
+        helper.fetchTrips(component);
+        helper.fetchTourist(component);
         let today = $A.localizationService.formatDate(new Date(), "YYYY-MM-DD");
         component.set("v.today", today);
     },
