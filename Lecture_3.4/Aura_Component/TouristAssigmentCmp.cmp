@@ -3,7 +3,6 @@
     <aura:attribute name="tripId" type="Id" access="public"/>
     <aura:attribute name="data" type="List" access="public"/>
     <aura:attribute name="flightData" type="List" access="public"/>
-    <aura:attribute name="columns" type="List" access="public"/>
     <aura:attribute name="today" type="Date" access="public"/>
     <aura:attribute name="mapMarkers" type="List" access="public"/>
     <aura:attribute name="zoomLevel" type="Integer" access="public"/>
